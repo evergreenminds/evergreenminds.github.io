@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sharp Minds – Daily Number Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wood:#5B3A23; --maple:#F1E0C2; --paper:#FBF3E0; --plank:#E3BF8A; --plank-hi:#EDCFA0;
+    --edge:#6B4423; --dark:#3E2514; --ink:#2B1A0E; --muted:#5C4330;
+    --good:#2F6B2A; --good-soft:#D8E8C6; --bad-soft:#F2C4B8; --pencil:#1F4E79;
+  }
+  *{box-sizing:border-box}
+  html{font-size:20px}
+  body{margin:0;color:var(--ink);line-height:1.5;
+    font-family:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+    background:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 2px,transparent 2px 11px),
+      repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 29px),
+      var(--wood)}
+  main{max-width:640px;margin:24px auto;padding:24px 20px 36px;background:var(--maple);
+    border:8px solid var(--dark);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  h1{font-size:2.1rem;margin:0 0 4px;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+  h2{font-size:1.5rem;margin:0 0 12px}
+  p{margin:0 0 16px}
+  .muted{color:var(--muted)}
+  .meta{color:var(--muted);margin-bottom:8px}
+  button{font:inherit;cursor:pointer}
+  button:focus-visible{outline:4px solid #1F4E79;outline-offset:3px}
+  .big{display:block;width:100%;min-height:76px;margin:0 0 14px;padding:14px 18px;
+    font-size:1.6rem;font-weight:700;color:var(--ink);
+    background:linear-gradient(var(--plank-hi),var(--plank));
+    border:3px solid var(--edge);border-radius:14px;text-align:left;box-shadow:0 3px 0 var(--edge)}
+  .big:hover:not(:disabled){background:var(--plank-hi)}
+  .big small{display:block;font-size:1rem;font-weight:400;color:var(--muted)}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .opts .big{margin:0;text-align:center}
+  .big.right{background:var(--good-soft);border-color:var(--good);box-shadow:none}
+  .big:disabled{cursor:default;box-shadow:none}
+  .primary{background:var(--edge);color:#FFF4DE;border:3px solid var(--dark);
+    border-radius:14px;padding:14px 22px;font-weight:700;font-size:1.2rem;min-height:60px}
+  .primary:hover{background:var(--dark)}
+  .sec{min-height:56px;padding:10px 16px;font-size:1.1rem;font-weight:700;color:var(--ink);
+    background:linear-gradient(var(--plank-hi),var(--plank));border:3px solid var(--edge);border-radius:12px}
+  .sec:hover{background:var(--plank-hi)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .prompt{font-size:3rem;text-align:center;margin:24px 0 28px}
+  .digits{font-size:3.6rem;font-weight:700;letter-spacing:.15em;text-align:center;
+    background:var(--paper);border:3px solid var(--edge);border-radius:14px;padding:28px 8px;margin:16px 0 24px;word-break:break-all}
+  .typed{min-height:92px}
+  .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .pad button{min-height:72px;font-size:1.7rem;font-weight:700;color:var(--ink);
+    background:linear-gradient(var(--plank-hi),var(--plank));border:3px solid var(--edge);border-radius:14px}
+  .pad button:hover:not(:disabled){background:var(--plank-hi)}
+  .pad .go{background:var(--edge);color:#FFF4DE}
+  #fb{min-height:3rem;margin-top:20px;font-size:1.2rem}
+  #fb .next{display:block;margin-top:14px}
+  .stat,.why{background:#E6CDA0;border:2px solid var(--edge);border-radius:14px;padding:14px 18px;margin:0 0 24px}
+  .why{background:var(--paper);font-size:.95rem;margin:10px 0 8px}
+  .link{background:none;border:none;color:var(--dark);text-decoration:underline;font-size:1.1rem;padding:12px 0}
+  .grid{display:grid;border:4px solid var(--dark);border-radius:8px;overflow:hidden;background:var(--paper);
+    margin:0 auto 16px;max-width:440px}
+  .cell{aspect-ratio:1;min-height:0;padding:0;border:1px solid #B58B5C;border-radius:0;background:var(--paper);
+    color:var(--pencil);font-weight:700;font-size:1.5rem}
+  .n9 .cell{font-size:1.25rem}
+  .cell.given{color:var(--ink);background:#EBD8B4}
+  .cell.sel{background:#F6D36B}
+  .cell.bad{background:var(--bad-soft)}
+  .cell.br{border-right:3px solid var(--dark)}
+  .cell.bb{border-bottom:3px solid var(--dark)}
+  .snum{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:8px;margin-bottom:14px}
+  .snum button{min-height:56px;font-size:1.5rem;font-weight:700;color:var(--ink);
+    background:linear-gradient(var(--plank-hi),var(--plank));border:3px solid var(--edge);border-radius:12px}
+  @media (max-width:420px){html{font-size:18px}.prompt{font-size:2.4rem}.digits{font-size:2.8rem}main{margin:10px;padding:18px 14px 28px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div id="view"></div>
+</main>
+
+<script>
+/* ---------- Setup ---------- */
+const ROUNDS = 5;        // questions per game
+const MAX_LEVEL = 6;     // highest difficulty level
+const view = document.querySelector('#view');
+const $ = s => document.querySelector(s);
+
+const GAMES = {
+  math:    { title: 'Quick Math',           blurb: 'Solve a sum in your head.' },
+  pattern: { title: 'Number Patterns',      blurb: 'Find the next number in the pattern.' },
+  memory:  { title: 'Remember the Numbers', blurb: 'Look at the numbers, then type them back.' },
+  sudoku:  { title: 'Sudoku',               blurb: 'Fill the grid so no number repeats.' }
+};
+
+/* ---------- Saved progress (stays on this device's browser) ---------- */
+function fresh(){ return { levels:{ math:1, pattern:1, memory:1, sudoku:1 }, days:[] }; }
+function load(){ try { return JSON.parse(localStorage.getItem('sharpminds')) || fresh(); } catch(e){ return fresh(); } }
+function save(){ try { localStorage.setItem('sharpminds', JSON.stringify(S)); } catch(e){} }
+let S = load();
+S.levels.sudoku = S.levels.sudoku || 1;   // for people who saved progress before Sudoku existed
+
+/* ---------- Helpers ---------- */
+const ri = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=ri(0,i); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function options(ans){
+  const set = new Set([ans]);
+  const spread = Math.max(3, Math.round(Math.abs(ans)*0.15));
+  while(set.size < 4){ const v = ans + ri(-spread, spread); if(v >= 0) set.add(v); }
+  return shuffle([...set]);
+}
+
+/* ---------- Question makers: add new game types here ---------- */
+function makeMath(l){
+  let a,b,op;
+  if(l===1){ a=ri(1,9); b=ri(1,9); op='+'; }
+  else if(l===2){ if(Math.random()<.5){ a=ri(5,20); b=ri(5,20); op='+'; } else { a=ri(10,25); b=ri(1,9); op='−'; } }
+  else if(l===3){ if(Math.random()<.5){ a=ri(15,60); b=ri(6,39); op='+'; } else { a=ri(30,80); b=ri(11,29); op='−'; } }
+  else if(l===4){ a=ri(2,9); b=ri(2,9); op='×'; }
+  else if(l===5){ if(Math.random()<.5){ a=ri(40,99); b=ri(21,89); op='+'; } else { a=ri(60,99); b=ri(21,59); op='−'; } }
+  else { a=ri(6,12); b=ri(6,12); op='×'; }
+  const ans = op==='+' ? a+b : op==='−' ? a-b : a*b;
+  return { prompt:`${a} ${op} ${b} = ?`, ans, opts: options(ans) };
+}
+
+function makePattern(l){
+  const s = [], st = ri(1,10);
+  if(l===1){ const d=ri(1,5); for(let i=0;i<5;i++) s.push(st+d*i); }
+  else if(l===2){ const d=ri(2,10), top=st+d*5; for(let i=0;i<5;i++) s.push(top-d*i); }
+  else if(l===3){ const f=ri(1,5); for(let i=0;i<5;i++) s.push(f*2**i); }
+  else if(l===4){ const a=ri(2,6), b=ri(1,4); let v=st; for(let i=0;i<6;i++){ s.push(v); v += i%2 ? b : a; } }
+  else if(l===5){ let v=st, d=ri(1,3); for(let i=0;i<6;i++){ s.push(v); v+=d; d++; } }
+  else { const n=ri(1,6); for(let i=0;i<5;i++) s.push((n+i)**2); }
+  const ans = s[s.length-1];
+  return { prompt: s.slice(0,-1).join(', ') + ', ?', ans, opts: options(ans) };
+}
+
+/* ---------- Home screen ---------- */
+function home(){
+  const weekAgo = Date.now() - 7*86400000;
+  const thisWeek = S.days.filter(d => new Date(d).getTime() > weekAgo).length;
+  view.innerHTML = `
+    <h1>Sharp Minds</h1>
+    <p class="muted">Pick a game. There are no timers, so take all the time you like.</p>
+    <div class="stat">Days played this week: <strong>${thisWeek}</strong></div>
+    ${Object.entries(GAMES).map(([k,g]) => `
+      <button class="big" data-game="${k}">${g.title}
+        <small>${g.blurb} Level ${S.levels[k]}</small></button>`).join('')}
+    <div class="why"><strong>Why puzzles?</strong> In a study of more than 19,000 adults aged 50 to 93 (the PROTECT study, run by the University of Exeter and King’s College London), people who did word or number puzzles at least once a month scored significantly better across every area of thinking that was tested than people who never did them. Attention scores were highest among those who did puzzles most often. <span class="muted">The study shows a link. It can’t prove that puzzles are the cause.</span></div>
+    <button class="link" id="reset">Reset my progress</button>`;
+  view.querySelectorAll('[data-game]').forEach(b => b.onclick = () => start(b.dataset.game));
+  $('#reset').onclick = () => { if(confirm('Reset all levels and history?')){ S = fresh(); save(); home(); } };
+}
+
+/* ---------- Game flow ---------- */
+let G = null;
+function start(key){
+  if(key === 'sudoku') return startSudoku();
+  G = { key, i:0, correct:0, run:0 };
+  key === 'memory' ? showMemory() : showQuestion();
+}
+
+function showQuestion(){
+  const maker = G.key === 'math' ? makeMath : makePattern;
+  const q = maker(S.levels[G.key]);
+  view.innerHTML = `
+    <p class="meta">${GAMES[G.key].title} · Question ${G.i+1} of ${ROUNDS}</p>
+    <h2 class="prompt">${q.prompt}</h2>
+    <div class="opts">${q.opts.map(o => `<button class="big" data-v="${o}">${o}</button>`).join('')}</div>
+    <div id="fb" role="status" aria-live="polite"></div>`;
+  view.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
+    view.querySelectorAll('.opts button').forEach(x => { x.disabled = true; if(+x.dataset.v === q.ans) x.classList.add('right'); });
+    afterAnswer(+b.dataset.v === q.ans, `The answer is ${q.ans}.`);
+  });
+}
+
+function showMemory(){
+  const len = Math.min(2 + S.levels.memory, 9);
+  G.seq = Array.from({length:len}, () => ri(0,9)).join('');
+  view.innerHTML = `
+    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>
+    <p>Take your time. Remember these numbers.</p>
+    <div class="digits" aria-label="Numbers to remember">${G.seq.split('').join(' ')}</div>
+    <button class="primary" id="ready">I’ve got them</button>`;
+  $('#ready').onclick = askMemory;
+}
+
+function askMemory(){
+  let typed = '';
+  view.innerHTML = `
+    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>
+    <p>Type the numbers you saw.</p>
+    <div class="digits typed" id="typed" aria-live="polite"></div>
+    <div class="pad" id="pad">
+      ${[1,2,3,4,5,6,7,8,9].map(n => `<button data-k="${n}">${n}</button>`).join('')}
+      <button data-k="del">Delete</button><button data-k="0">0</button><button data-k="go" class="go">Check</button>
+    </div>
+    <div id="fb" role="status" aria-live="polite"></div>`;
+  const show = () => $('#typed').textContent = typed.split('').join(' ') || '\u00A0';
+  show();
+  view.querySelectorAll('#pad button').forEach(b => b.onclick = () => {
+    const k = b.dataset.k;
+    if(k === 'del') typed = typed.slice(0,-1);
+    else if(k === 'go'){
+      if(!typed) return;
+      view.querySelectorAll('#pad button').forEach(x => x.disabled = true);
+      afterAnswer(typed === G.seq, `The numbers were ${G.seq.split('').join(' ')}.`);
+      return;
+    }
+    else if(typed.length < G.seq.length) typed += k;
+    show();
+  });
+}
+
+/* Makes the game easier or harder: 2 right in a row = level up, 2 wrong = level down */
+function adapt(ok){
+  G.run = ok ? (G.run > 0 ? G.run+1 : 1) : (G.run < 0 ? G.run-1 : -1);
+  if(G.run >= 2 && S.levels[G.key] < MAX_LEVEL){ S.levels[G.key]++; G.run = 0; }
+  if(G.run <= -2 && S.levels[G.key] > 1){ S.levels[G.key]--; G.run = 0; }
+}
+
+function afterAnswer(ok, detail){
+  G.i++; if(ok) G.correct++;
+  adapt(ok);
+  const last = G.i >= ROUNDS;
+  $('#fb').innerHTML = (ok ? '<strong>Correct.</strong> Well done.' : `<strong>Not quite.</strong> ${detail}`) +
+    `<button class="primary next" id="next">${last ? 'See my results' : 'Next question'}</button>`;
+  $('#next').onclick = last ? finish : (G.key === 'memory' ? showMemory : showQuestion);
+  $('#next').focus();
+}
+
+function finish(){
+  const today = new Date().toDateString();
+  if(!S.days.includes(today)) S.days.push(today);
+  save();
+  const msg = G.correct >= 4 ? 'Excellent work.' : G.correct >= 2 ? 'Good effort. Every round keeps your mind active.' : 'Thanks for playing. The next round will adjust to suit you.';
+  view.innerHTML = `
+    <h2>You got ${G.correct} out of ${ROUNDS}</h2>
+    <p>${msg}</p>
+    <p class="muted">${GAMES[G.key].title} is now at Level ${S.levels[G.key]}.</p>
+    <button class="primary" id="again">Play again</button>
+    <button class="link" id="home">Back to games</button>`;
+  $('#again').onclick = () => start(G.key);
+  $('#home').onclick = home;
+}
+
+/* ---------- Sudoku (one puzzle per round; grows from 4x4 to 9x9) ---------- */
+const SUDOKU_LEVELS = {
+  1:{n:4,br:2,bc:2,blanks:6},  2:{n:4,br:2,bc:2,blanks:9},
+  3:{n:6,br:2,bc:3,blanks:14}, 4:{n:6,br:2,bc:3,blanks:20},
+  5:{n:9,br:3,bc:3,blanks:34}, 6:{n:9,br:3,bc:3,blanks:40},
+  7:{n:9,br:3,bc:3,blanks:46}, 8:{n:9,br:3,bc:3,blanks:50}
+};
+const SUDOKU_MAX = 8;
+
+function sdOk(g,n,br,bc,r,c,v){
+  for(let i=0;i<n;i++) if(g[r][i]===v || g[i][c]===v) return false;
+  const r0=r-r%br, c0=c-c%bc;
+  for(let i=0;i<br;i++) for(let j=0;j<bc;j++) if(g[r0+i][c0+j]===v) return false;
+  return true;
+}
+/* Counts solutions (up to limit). With fill=true it leaves one random solution in the grid. */
+function sdSolve(g,n,br,bc,limit,fill){
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+    if(g[r][c]!==0) continue;
+    let count=0, vals=[...Array(n)].map((_,i)=>i+1);
+    if(fill) shuffle(vals);
+    for(const v of vals){
+      if(!sdOk(g,n,br,bc,r,c,v)) continue;
+      g[r][c]=v;
+      count += sdSolve(g,n,br,bc,limit-count,fill);
+      if(fill && count>0) return count;
+      g[r][c]=0;
+      if(count>=limit) return count;
+    }
+    return count;
+  }
+  return 1;
+}
+function sdMake(l){
+  const {n,br,bc,blanks} = SUDOKU_LEVELS[l];
+  const sol = Array.from({length:n},()=>Array(n).fill(0));
+  sdSolve(sol,n,br,bc,1,true);
+  const p = sol.map(r=>r.slice());
+  let removed = 0;
+  for(const k of shuffle([...Array(n*n).keys()])){
+    if(removed >= blanks) break;
+    const r=Math.floor(k/n), c=k%n, keep=p[r][c];
+    p[r][c]=0;
+    if(sdSolve(p.map(x=>x.slice()),n,br,bc,2,false)===1) removed++; else p[r][c]=keep;
+  }
+  return { n,br,bc,sol, cur:p.map(r=>r.slice()), given:p.map(r=>r.map(v=>v!==0)) };
+}
+
+function startSudoku(){
+  G = { key:'sudoku', hints:0, sel:null, bad:null, msg:'', p:sdMake(S.levels.sudoku) };
+  drawSudoku();
+}
+function drawSudoku(){
+  const p=G.p, n=p.n, lvl=S.levels.sudoku;
+  let cells='';
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+    const v=p.cur[r][c], cls=['cell'];
+    if(p.given[r][c]) cls.push('given');
+    if(G.sel && G.sel[0]===r && G.sel[1]===c) cls.push('sel');
+    if(G.bad && G.bad.has(r*n+c)) cls.push('bad');
+    if((c+1)%p.bc===0 && c<n-1) cls.push('br');
+    if((r+1)%p.br===0 && r<n-1) cls.push('bb');
+    cells += `<button class="${cls.join(' ')}" data-r="${r}" data-c="${c}" aria-label="Row ${r+1}, column ${c+1}, ${v||'empty'}">${v||''}</button>`;
+  }
+  view.innerHTML = `
+    <p class="meta">Sudoku · Level ${lvl} of ${SUDOKU_MAX} · ${n}×${n} grid</p>
+    <p>Tap a square, then tap a number. Each row, column and boxed block needs 1 to ${n} with no repeats.</p>
+    <div class="grid n${n}" style="grid-template-columns:repeat(${n},1fr)">${cells}</div>
+    <div class="snum">${[...Array(n)].map((_,i)=>`<button data-num="${i+1}">${i+1}</button>`).join('')}<button data-num="0">Erase</button></div>
+    <div class="row"><button class="sec" id="chk">Check my work</button><button class="sec" id="hint">Give me a hint</button><button class="sec" id="easy">Easier puzzle</button></div>
+    <div id="fb" role="status" aria-live="polite">${G.msg}</div>
+    <button class="link" id="home">Back to games</button>`;
+  view.querySelectorAll('.cell').forEach(b => b.onclick = () => {
+    const r=+b.dataset.r, c=+b.dataset.c;
+    if(!p.given[r][c]){ G.sel=[r,c]; drawSudoku(); }
+  });
+  view.querySelectorAll('[data-num]').forEach(b => b.onclick = () => {
+    if(!G.sel){ G.msg='Tap an empty square first.'; return drawSudoku(); }
+    p.cur[G.sel[0]][G.sel[1]] = +b.dataset.num; G.bad=null; G.msg='';
+    if(p.cur.every(row => row.every(v => v!==0))){
+      if(p.cur.every((row,r) => row.every((v,c) => v===p.sol[r][c]))) return sudokuWin();
+      G.msg='Every square is filled, but a few are wrong. Tap “Check my work” to see which.';
+    }
+    drawSudoku();
+  });
+  $('#chk').onclick = () => {
+    G.bad = new Set();
+    p.cur.forEach((row,r) => row.forEach((v,c) => { if(v && v!==p.sol[r][c]) G.bad.add(r*n+c); }));
+    G.msg = G.bad.size ? `${G.bad.size} square${G.bad.size>1?'s need':' needs'} another look. They are shown in red.` : 'Everything filled in so far is correct. Keep going.';
+    drawSudoku();
+  };
+  $('#hint').onclick = () => {
+    let t = G.sel && !p.given[G.sel[0]][G.sel[1]] && p.cur[G.sel[0]][G.sel[1]] !== p.sol[G.sel[0]][G.sel[1]] ? G.sel : null;
+    if(!t){ const open=[]; p.cur.forEach((row,r)=>row.forEach((v,c)=>{ if(v!==p.sol[r][c]) open.push([r,c]); })); t=open[ri(0,open.length-1)]; }
+    p.cur[t[0]][t[1]] = p.sol[t[0]][t[1]]; p.given[t[0]][t[1]] = true;
+    G.hints++; G.bad=null; G.sel=null; G.msg='I filled in one square for you.';
+    if(p.cur.every((row,r) => row.every((v,c) => v===p.sol[r][c]))) return sudokuWin();
+    drawSudoku();
+  };
+  $('#easy').onclick = () => { S.levels.sudoku = Math.max(1, lvl-1); save(); startSudoku(); };
+  $('#home').onclick = home;
+}
+function sudokuWin(){
+  const lvl=S.levels.sudoku, up = G.hints===0 && lvl<SUDOKU_MAX;
+  if(up) S.levels.sudoku++;
+  const today = new Date().toDateString();
+  if(!S.days.includes(today)) S.days.push(today);
+  save();
+  const note = G.hints===0
+    ? (up ? `You solved it without any hints, so you move up to Level ${S.levels.sudoku}.` : 'You solved it without any hints at the top level. Impressive.')
+    : `You used ${G.hints} hint${G.hints>1?'s':''}, so you stay at Level ${lvl}. Try again for a move up.`;
+  view.innerHTML = `<h2>Puzzle solved!</h2><p>${note}</p>
+    <button class="primary" id="again">Next puzzle</button>
+    <button class="link" id="home">Back to games</button>`;
+  $('#again').onclick = startSudoku;
+  $('#home').onclick = home;
+}
+
+home();
+</script>
+</body>
+</html>
