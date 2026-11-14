@@ -73,6 +73,8 @@
   .snum{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:8px;margin-bottom:14px}
   .snum button{min-height:56px;font-size:1.5rem;font-weight:700;color:var(--ink);
     background:linear-gradient(var(--plank-hi),var(--plank));border:3px solid var(--edge);border-radius:12px}
+  .foot{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px}
+  .fine{font-size:.72rem;color:var(--muted);flex:1 1 220px}
   @media (max-width:420px){html{font-size:18px}.prompt{font-size:2.4rem}.digits{font-size:2.8rem}main{margin:10px;padding:18px 14px 28px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -149,8 +151,9 @@ function home(){
     ${Object.entries(GAMES).map(([k,g]) => `
       <button class="big" data-game="${k}">${g.title}
         <small>${g.blurb} Level ${S.levels[k]}</small></button>`).join('')}
-    <div class="why"><strong>Why puzzles?</strong> In a study of more than 19,000 adults aged 50 to 93 (the PROTECT study, run by the University of Exeter and King’s College London), people who did word or number puzzles at least once a month scored significantly better across every area of thinking that was tested than people who never did them. Attention scores were highest among those who did puzzles most often. <span class="muted">The study shows a link. It can’t prove that puzzles are the cause.</span></div>
-    <button class="link" id="reset">Reset my progress</button>`;
+    <div class="why">${QUOTE.t}${QUOTE.n ? ` <span class="muted">${QUOTE.n}</span>` : ''}</div>
+    <div class="foot"><button class="link" id="reset">Reset my progress</button>
+      <span class="fine">These games help keep your mind active and engaged. They are not a medical test or a treatment.</span></div>`;
   view.querySelectorAll('[data-game]').forEach(b => b.onclick = () => start(b.dataset.game));
   $('#reset').onclick = () => { if(confirm('Reset all levels and history?')){ S = fresh(); save(); home(); } };
 }
@@ -170,7 +173,8 @@ function showQuestion(){
     <p class="meta">${GAMES[G.key].title} · Question ${G.i+1} of ${ROUNDS}</p>
     <h2 class="prompt">${q.prompt}</h2>
     <div class="opts">${q.opts.map(o => `<button class="big" data-v="${o}">${o}</button>`).join('')}</div>
-    <div id="fb" role="status" aria-live="polite"></div>`;
+    <div id="fb" role="status" aria-live="polite"></div>
+    <button class="link" id="leave">Leave this game</button>`;
   view.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
     view.querySelectorAll('.opts button').forEach(x => { x.disabled = true; if(+x.dataset.v === q.ans) x.classList.add('right'); });
     afterAnswer(+b.dataset.v === q.ans, `The answer is ${q.ans}.`);
@@ -184,7 +188,8 @@ function showMemory(){
     <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>
     <p>Take your time. Remember these numbers.</p>
     <div class="digits" aria-label="Numbers to remember">${G.seq.split('').join(' ')}</div>
-    <button class="primary" id="ready">I’ve got them</button>`;
+    <button class="primary" id="ready">I’ve got them</button>
+    <button class="link" id="leave">Leave this game</button>`;
   $('#ready').onclick = askMemory;
 }
 
@@ -198,7 +203,8 @@ function askMemory(){
       ${[1,2,3,4,5,6,7,8,9].map(n => `<button data-k="${n}">${n}</button>`).join('')}
       <button data-k="del">Delete</button><button data-k="0">0</button><button data-k="go" class="go">Check</button>
     </div>
-    <div id="fb" role="status" aria-live="polite"></div>`;
+    <div id="fb" role="status" aria-live="polite"></div>
+    <button class="link" id="leave">Leave this game</button>`;
   const show = () => $('#typed').textContent = typed.split('').join(' ') || '\u00A0';
   show();
   view.querySelectorAll('#pad button').forEach(b => b.onclick = () => {
@@ -318,7 +324,7 @@ function drawSudoku(){
     <div class="snum">${[...Array(n)].map((_,i)=>`<button data-num="${i+1}">${i+1}</button>`).join('')}<button data-num="0">Erase</button></div>
     <div class="row"><button class="sec" id="chk">Check my work</button><button class="sec" id="hint">Give me a hint</button><button class="sec" id="easy">Easier puzzle</button></div>
     <div id="fb" role="status" aria-live="polite">${G.msg}</div>
-    <button class="link" id="home">Back to games</button>`;
+    <button class="link" id="home">Leave this game</button>`;
   view.querySelectorAll('.cell').forEach(b => b.onclick = () => {
     const r=+b.dataset.r, c=+b.dataset.c;
     if(!p.given[r][c]){ G.sel=[r,c]; drawSudoku(); }
@@ -364,6 +370,31 @@ function sudokuWin(){
   $('#again').onclick = startSudoku;
   $('#home').onclick = home;
 }
+
+/* ---------- Rotating notes on the home screen (a different one each visit) ---------- */
+const QUOTES = [
+  { t:"Every puzzle you solve asks different parts of your mind to work together. Those connections get stronger the more you use them." },
+  { t:"Remembering numbers, spotting patterns and solving sums use different skills. Practicing them together keeps those links active." },
+  { t:"Think of your mind as a garden path: the more often you walk it, the clearer it stays." },
+  { t:"A few minutes on most days adds up. Each session is practice for the way you reason, focus and remember." },
+  { t:"Sudoku, patterns, sums and memory all lean on your attention. Every game you play gives it a workout." },
+  { t:"Each time you connect one number to the next, you are using the same skills you rely on for planning and remembering." },
+  { t:"Taking on a slightly harder level each time is how a mind stays flexible and strong." },
+  { t:"In a study of more than 19,000 adults aged 50 to 93 (the PROTECT study, by the University of Exeter and King’s College London), people who did word or number puzzles at least once a month scored significantly better across every area of thinking tested than people who never did. Attention scores were highest among those who did puzzles most often.",
+    n:"The study shows a link. It can’t prove puzzles are the cause." }
+];
+function pickQuote(){
+  let last = -1;
+  try { const raw = localStorage.getItem('sharpminds_q'); if(raw !== null) last = +raw; } catch(e){}
+  let i;
+  do { i = ri(0, QUOTES.length-1); } while(i === last && QUOTES.length > 1);
+  try { localStorage.setItem('sharpminds_q', i); } catch(e){}
+  return QUOTES[i];
+}
+const QUOTE = pickQuote();   // chosen once per visit
+
+/* One handler for every "Leave this game" button */
+view.addEventListener('click', e => { if(e.target.id === 'leave'){ save(); home(); } });
 
 home();
 </script>
