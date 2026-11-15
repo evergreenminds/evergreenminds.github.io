@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SmarterMinds</title>
+<title>EvergreenMinds</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='56' fill='%236b4423'/%3E%3Ccircle cx='60' cy='60' r='34' fill='%232f5b32'/%3E%3Cpath d='M60 36L73 54H66L77 70H43L54 54H47Z' fill='%23e8d3a2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -17,10 +18,11 @@
   body{margin:0;color:var(--ink);line-height:1.5;
     font-family:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
     background:
+      var(--tile-body,none) 0 0/240px 240px,
       repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 2px,transparent 2px 11px),
       repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 29px),
       var(--wood)}
-  main{max-width:640px;margin:24px auto;padding:24px 20px 36px;background:var(--maple);
+  main{max-width:640px;margin:24px auto;padding:24px 20px 36px;background:var(--tile-main,none) 0 0/240px 240px,var(--maple);
     border:8px solid var(--dark);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
   h1{font-size:2.1rem;margin:0 0 4px;text-shadow:0 1px 0 rgba(255,255,255,.6)}
   h2{font-size:1.5rem;margin:0 0 12px}
@@ -106,7 +108,7 @@
   html[data-font="small"]{font-size:16px}
   html[data-font="large"]{font-size:24px}
   .top{flex-wrap:wrap;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-  #brand{background:none;border:none;font-size:1.5rem;font-weight:700;color:var(--ink);padding:4px 0}
+  #brand{display:flex;align-items:center;gap:8px;background:none;border:none;font-size:1.5rem;font-weight:700;color:var(--ink);padding:4px 0}
   #gear,#dash{min-height:48px;padding:6px 14px}
   .tb{display:flex;gap:8px}
   .pb{height:16px;background:var(--paper);border:2px solid var(--edge);border-radius:10px;overflow:hidden;margin:0 0 16px}
@@ -141,6 +143,35 @@
   .jp.sel::after{content:"Selected";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#F2B705;color:#2B1A0E;font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:6px}
   .src li{margin-bottom:8px}
   .src a{color:inherit}
+  #brand{padding:0;min-width:0}
+  #brand svg{width:170px;height:auto;display:block}
+  button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .diff{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .diff .sec:only-child{grid-column:1/-1}
+  .grow{display:flex;align-items:center;gap:16px}
+  .tree{flex:0 0 120px}
+  .tree svg{display:block;width:100%;height:auto;transform-origin:50% 95%;animation:sway 6s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+  .plank{--p1:#c58f58;--p2:#b07a47;
+    background:radial-gradient(circle at 9px 9px,#3E2514 2px,transparent 2.6px),radial-gradient(circle at calc(100% - 9px) 9px,#3E2514 2px,transparent 2.6px),radial-gradient(circle at 9px calc(100% - 9px),#3E2514 2px,transparent 2.6px),radial-gradient(circle at calc(100% - 9px) calc(100% - 9px),#3E2514 2px,transparent 2.6px),repeating-linear-gradient(0deg,rgba(90,55,25,.2) 0 1px,transparent 1px 9px),linear-gradient(var(--p1),var(--p2)) !important;
+    border:3px solid #3E2514 !important;border-radius:10px;color:#3b2412 !important;font-family:Georgia,"Times New Roman",serif;font-weight:700;
+    text-shadow:1px 1px 0 #e6c48f;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 3px 0 #3E2514;padding-left:16px;padding-right:16px}
+  .plank:hover:not(:disabled){--p1:#d19c63;--p2:#bd8750}
+  .plank[aria-pressed="true"]{--p1:#6e4220;--p2:#583318;color:#FFF4DE !important;text-shadow:1px 1px 0 #2b1a0e}
+  .plank.last{border-color:#2F6B2A !important}
+  .plank:disabled{opacity:.7}
+  .diff .plank{padding:8px 2px;font-size:clamp(.8rem,3.8vw,1rem)}
+  .pad .plank{font-size:1.1rem;padding:0 8px}
+  .snum .plank{font-size:1rem;padding:0 6px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tabs .sec::after{content:" ▾"}
+  .tabs .sec[aria-expanded="true"]{background:var(--edge);color:#FFF4DE}
+  .tabs .sec[aria-expanded="true"]::after{content:" ▴"}
+  .panel{background:var(--paper);border:2px solid var(--edge);border-radius:12px;padding:6px 16px 12px;margin-top:10px}
+  .panel[hidden]{display:none}
+  .panel h3{margin:14px 0 6px;font-size:1.15rem}
+  .panel ul{padding-left:1.2rem;margin:0 0 12px}
+  .panel li{margin-bottom:6px}
   .foot{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px}
   .fine{font-size:.72rem;color:var(--muted);flex:1 1 220px}
   @media (max-width:420px){html{font-size:18px}.prompt{font-size:2.4rem}.digits{font-size:2.8rem}main{margin:10px;padding:18px 14px 28px}}
@@ -149,7 +180,7 @@
 </head>
 <body>
 <main>
-  <header class="top"><button id="brand">SmarterMinds</button><span class="tb"><button class="sec" id="dash">Dashboard</button><button class="sec" id="gear" aria-label="Settings">⚙ Settings</button></span></header>
+  <header class="top"><button id="brand" aria-label="EvergreenMinds, home"><svg viewBox="0 0 280 100" aria-hidden="true"><rect x="4" y="8" width="272" height="84" rx="12" fill="#b98350" stroke="#3E2514" stroke-width="5"/><g stroke="#9b6a3d" stroke-width="1.5" fill="none"><path d="M14 28H266M14 50H266M14 72H266"/></g><circle cx="20" cy="20" r="3" fill="#3E2514"/><circle cx="260" cy="20" r="3" fill="#3E2514"/><circle cx="20" cy="80" r="3" fill="#3E2514"/><circle cx="260" cy="80" r="3" fill="#3E2514"/><g transform="translate(36 18) scale(.55)"><g transform="translate(1.6 1.6)" fill="#e6c48f"><path d="M60 22L80 52H69L86 78H34L51 52H40Z"/><rect x="56" y="78" width="8" height="15"/></g><g fill="#3b2412"><path d="M60 22L80 52H69L86 78H34L51 52H40Z"/><rect x="56" y="78" width="8" height="15"/></g></g><g font-family="Georgia,serif" font-weight="700" font-size="26"><text x="93.2" y="49.2" fill="#e6c48f">Evergreen</text><text x="92" y="48" fill="#3b2412">Evergreen</text><text x="93.2" y="77.2" fill="#e6c48f">Minds</text><text x="92" y="76" fill="#3b2412">Minds</text></g></svg></button><span class="tb"><button class="sec" id="dash">Dashboard</button><button class="sec" id="gear" aria-label="Settings">⚙ Settings</button></span></header>
   <div id="view"></div>
 </main>
 
@@ -171,7 +202,7 @@ const GAMES = {
 };
 
 /* ---------- Saved progress (stays on this device's browser) ---------- */
-function fresh(){ return { levels:{ math:1, pattern:1, memory:1, sudoku:1 }, days:[], diff:{}, set:{ mute:false, dark:false, font:'normal' } }; }
+function fresh(){ return { levels:{ math:1, pattern:1, memory:1, sudoku:1 }, days:[], diff:{}, set:{ mute:false, dark:false, music:false, font:'normal' } }; }
 function load(){ try { return JSON.parse(localStorage.getItem('sharpminds')) || fresh(); } catch(e){ return fresh(); } }
 function save(){ try { localStorage.setItem('sharpminds', JSON.stringify(S)); } catch(e){} }
 let S = load();
@@ -179,7 +210,7 @@ S.levels.sudoku = S.levels.sudoku || 1;
 S.levels.crossword = S.levels.crossword || 1;
 S.levels.jigsaw = S.levels.jigsaw || 1;
 S.diff = S.diff || {};
-S.set = Object.assign({ mute:false, dark:false, font:'normal' }, S.set);   // for people who saved progress before Sudoku existed
+S.set = Object.assign({ mute:false, dark:false, music:false, font:'normal' }, S.set);   // for people who saved progress before Sudoku existed
 
 /* ---------- Helpers ---------- */
 const ri = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
@@ -248,7 +279,70 @@ function streak(){
   const d = new Date(); if(!set.has(d.toDateString())) d.setDate(d.getDate()-1);
   let n = 0; while(set.has(d.toDateString())){ n++; d.setDate(d.getDate()-1); } return n;
 }
-function applySettings(){ document.documentElement.dataset.theme = S.set.dark ? 'dark' : 'light'; document.documentElement.dataset.font = S.set.font || 'normal'; }
+function applySettings(){ document.documentElement.dataset.theme = S.set.dark ? 'dark' : 'light'; document.documentElement.dataset.font = S.set.font || 'normal'; setTiles(); }
+
+/* ---------- Branch-with-sprouts background ---------- */
+function tile(c){
+  const sp = (x,y,r,k) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${k})"><path d="M0 2V-20" stroke="${c.b}" stroke-width="2.5" fill="none"/><path d="M0 -18Q-12 -20 -16 -32Q-3 -32 0 -18Z" fill="${c.l}"/><path d="M0 -13Q12 -15 16 -27Q3 -27 0 -13Z" fill="${c.l}"/></g>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><path d="M0 140C60 90 90 190 120 140S180 90 240 140" stroke="${c.b}" stroke-width="5" stroke-linecap="round" fill="none"/>${sp(40,126,-25,1)}${sp(97,154,160,.9)}${sp(143,112,-10,1.1)}${sp(200,112,20,.9)}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+function setTiles(){
+  const d = S.set.dark, st = document.documentElement.style;
+  st.setProperty('--tile-body', tile(d ? {b:'rgba(201,160,106,.28)',l:'rgba(143,192,122,.35)'} : {b:'rgba(168,120,76,.45)',l:'rgba(111,170,90,.5)'}));
+  st.setProperty('--tile-main', tile(d ? {b:'rgba(201,160,106,.12)',l:'rgba(143,192,122,.15)'} : {b:'rgba(107,68,35,.16)',l:'rgba(63,125,50,.2)'}));
+}
+
+/* ---------- Tree that grows a little more for every day you play ---------- */
+function treeSVG(d){
+  const g = 186;
+  let b = '';
+  const soil = `<ellipse cx="100" cy="${g+4}" rx="62" ry="8" fill="#5b3a23"/><path d="M40 ${g+1}Q100 ${g-9} 160 ${g+1}Z" fill="#7a5230"/>`;
+  if(d <= 0) b = `<circle cx="100" cy="${g-5}" r="5" fill="#8a5a2b"/>`;
+  else if(d === 1) b = `<path d="M100 ${g-4}V${g-30}" stroke="#4f9140" stroke-width="4" fill="none"/><path d="M100 ${g-26}Q80 ${g-30} 74 ${g-50}Q96 ${g-50} 100 ${g-26}Z" fill="#4f9140"/><path d="M100 ${g-22}Q122 ${g-26} 128 ${g-46}Q104 ${g-46} 100 ${g-22}Z" fill="#6fae52"/>`;
+  else {
+    const t = Math.min(d-1, 12), th = 14 + t*2, w0 = 44 + t*3, step = 11;
+    b = `<rect x="${97-t*.2}" y="${g-th}" width="${6+t*.4}" height="${th}" fill="#6b4423"/>`;
+    for(let i=0;i<t;i++){ const base = g-th+4-i*step, w = w0*(1-i/(t+.6));
+      b += `<path d="M${100-w/2} ${base}L100 ${base-step-12}L${100+w/2} ${base}Z" fill="${i%2 ? '#2f6b32' : '#3d8040'}"/>`; }
+    if(d >= 14) b += `<path d="M100 ${g-th-t*step-8}l3 8h8l-6 5 2 8-7-5-7 5 2-8-6-5h8z" fill="#f2b705"/>`;
+  }
+  return `<svg viewBox="0 0 200 200">${soil}${b}</svg>`;
+}
+
+/* ---------- Relaxing music (made live in the browser, no files needed) ---------- */
+const SCALE = [261.63,293.66,329.63,392,440,523.25,587.33,659.25];
+let MUS = null;
+function mnote(f,dur,vol){
+  const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime;
+  o.type='sine'; o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t); g.gain.linearRampToValueAtTime(vol,t+dur*.3); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(MUS.bus); o.start(t); o.stop(t+dur+.05);
+}
+function startMusic(){
+  if(MUS) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume();
+    const master=AC.createGain(), bus=AC.createGain(), dl=AC.createDelay(2), fb=AC.createGain(), wet=AC.createGain();
+    master.gain.setValueAtTime(.0001,AC.currentTime); master.gain.linearRampToValueAtTime(.6,AC.currentTime+3);
+    dl.delayTime.value=.55; fb.gain.value=.45; wet.gain.value=.5;
+    bus.connect(master); bus.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(master); master.connect(AC.destination);
+    MUS = { master, bus, timer:null, i:0 };
+    const chords = [[130.81,196],[110,164.81],[87.31,130.81],[98,146.83]];
+    const step = () => {
+      if(MUS.i % 4 === 0) chords[(MUS.i/4) % 4].forEach(f => mnote(f,13,.05));
+      if(Math.random() < .85) mnote(SCALE[ri(0,7)],6,.07);
+      if(Math.random() < .35) mnote(SCALE[ri(0,7)]*2,5,.035);
+      MUS.i++;
+    };
+    step(); MUS.timer = setInterval(step,3000);
+  } catch(e){ MUS = null; }
+}
+function stopMusic(){
+  if(!MUS) return;
+  const m = MUS; MUS = null; clearInterval(m.timer);
+  try { m.master.gain.cancelScheduledValues(AC.currentTime); m.master.gain.setValueAtTime(m.master.gain.value,AC.currentTime); m.master.gain.linearRampToValueAtTime(.0001,AC.currentTime+1.5); } catch(e){}
+}
 
 let AC = null;
 function tone(f,t0,d,v){ const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime+t0;
@@ -259,7 +353,7 @@ function sfx(kind){
   try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume();
     if(kind==='win') [523,659,784,1047].forEach((f,i) => tone(f,i*.12,.3,.18)); else tone(700,0,.06,.12); } catch(e){}
 }
-document.addEventListener('click', e => { if(e.target.closest && e.target.closest('button')) sfx('click'); });
+document.addEventListener('click', e => { if(e.target.closest && e.target.closest('button')) sfx('click'); if(S.set.music && !MUS) startMusic(); });
 document.addEventListener('input', () => sfx('click'));
 
 const SOURCES = [
@@ -268,7 +362,6 @@ const SOURCES = [
  ['University of Exeter (2019, May 16). Regular crosswords and number puzzles linked to sharper brain in later life. ScienceDaily.','https://www.sciencedaily.com/releases/2019/05/190516082349.htm'],
  ['NIHR Join Dementia Research. Can doing a daily crossword or sudoku puzzle keep your brain young? (a plain-language review of the two studies and their limits).','https://news.joindementiaresearch.nihr.ac.uk/can-doing-a-daily-crossword-or-sudoku-puzzle-keep-your-brain-young/']
 ];
-const ABOUT = "SmarterMinds was created by a high school junior who loves math and coding. He built this site to help people keep their minds active as they age, and to support the fight against cognitive decline. Number puzzles, pattern games, memory challenges and word games all ask your brain to focus, remember and reason, and doing that regularly is a great habit. The games are simple, readable and free to play.";
 const HOW = [
  ['Quick Math','Solve each sum in your head, then tap the right answer. Each round has 5 questions.'],
  ['Number Patterns','Work out the rule in the row of numbers, such as adding the same amount each time, then tap the number that comes next.'],
@@ -286,23 +379,55 @@ function landing(){
   const n = streak(), today = S.days.includes(new Date().toDateString());
   view.innerHTML = `
     <h1>Ready to give your brain a workout?</h1>
-    <div class="stat"><span class="n">${n}</span> day streak<br><small class="muted">${today ? 'You’ve played today. Great job!' : (n ? 'Finish a game today to keep your streak going.' : 'Finish a game today to start your streak.')}</small></div>
+    <div class="stat grow">
+      <div class="tree" role="img" aria-label="Your tree, grown over ${S.days.length} day${S.days.length===1?'':'s'}">${treeSVG(S.days.length)}</div>
+      <div><span class="n">${n}</span> day streak<br>
+        <small class="muted">${today ? 'You’ve played today. Great job!' : (n ? 'Finish a game today to keep your streak going.' : 'Finish a game today to start your streak.')}</small><br>
+        <small class="muted">${S.days.length ? `Your tree has grown for ${S.days.length} day${S.days.length===1?'':'s'}.` : 'Finish a game to plant your tree.'}</small></div></div>
     <button class="primary" id="play" style="width:100%;font-size:1.5rem;min-height:72px">Play games</button>
     <div class="why" style="margin-top:20px">${QUOTE.t}${QUOTE.n ? ` <span class="muted">${QUOTE.n}</span>` : ''}</div>
-    <p class="fine">These games help keep your mind active and engaged. They are not a medical test or a treatment.</p>
-    <details class="src"><summary>Sources</summary>
-      <p class="fine">Research behind the study mentioned above. These studies are cross-sectional: they show a link between puzzles and thinking skills, not proof that puzzles cause it.</p>
-      <ol class="fine">${SOURCES.map(([t,u]) => `<li>${t} <a href="${u}" target="_blank" rel="noopener">${u.replace('https://','')}</a></li>`).join('')}</ol></details>`;
+    <div class="tabs" style="margin-top:20px"><button class="sec" id="tabAbout" aria-expanded="false" aria-controls="panel">About</button><button class="sec" id="tabSrc" aria-expanded="false" aria-controls="panel">Sources</button></div>
+    <div id="panel" class="panel" hidden></div>
+    <p class="fine" style="margin-top:16px">These games help keep your mind active and engaged. They are not a medical test or a treatment.</p>`;
   $('#play').onclick = home;
+  $('#tabAbout').onclick = () => togglePanel('about');
+  $('#tabSrc').onclick = () => togglePanel('src');
 }
 function home(){
   SCREEN = 'games'; G = null; $('#dash').style.display = '';
   view.innerHTML = `<h2>Choose a game</h2><p class="muted">Pick a difficulty to begin. There are no timers.</p>` +
-    Object.entries(GAMES).map(([k,g]) => `<div class="gc"><strong>${g.title}</strong><small>${g.blurb}</small><div class="row">${
+    Object.entries(GAMES).map(([k,g]) => `<div class="gc"><strong>${g.title}</strong><small>${g.blurb}</small><div class="diff">${
       k==='wordle' ? `<button class="sec" data-game="${k}">Play</button>`
       : ['easy','medium','hard'].map(d => `<button class="sec${S.diff[k]===d?' last':''}" data-game="${k}" data-d="${d}">${cap(d)}</button>`).join('')}</div></div>`).join('');
   view.querySelectorAll('[data-game]').forEach(b => b.onclick = () => {
     const k=b.dataset.game; if(b.dataset.d){ S.diff[k]=b.dataset.d; save(); } start(k); });
+}
+const STORY = `<h3>Why cognitive decline matters</h3>
+    <p>Our thinking skills, such as memory, attention, reasoning and how quickly we process information, can change as we age. For some people the changes are mild. For others they grow into conditions like dementia, which can affect independence, relationships and quality of life, and which touches whole families, not only the person diagnosed.</p>
+    <p>Researchers have linked many everyday habits to better brain health, including staying physically active, sleeping well, keeping up friendships and keeping the mind engaged. That last habit is where EvergreenMinds comes in.</p>
+    <h3>Why I created EvergreenMinds</h3>
+    <p>I’m a high school junior who loves math and coding. I wanted to use those two interests to build something that could genuinely help people. Math and puzzles exercise the same skills we rely on every day, so I turned them into a collection of simple, friendly games and put the whole site together for anyone to use.</p>
+    <h3>Why accessible mental activities are important</h3>
+    <p>A good brain workout shouldn’t depend on money, the newest device or tech skills. Many brain-training apps need subscriptions, accounts or downloads, and many are designed for younger eyes and quicker fingers.</p>
+    <p>EvergreenMinds is free, runs in a web browser on a phone, tablet or computer, and needs no sign-up. Large readable text, an adjustable text size, a dark mode, no timers and optional sound help people of different ages, abilities and comfort with technology take part. When an activity is easy to start, more people keep doing it.</p>
+    <h3>How the games encourage regular engagement</h3>
+    <p>Habits form when something is easy, enjoyable and rewarding. That idea shapes the whole site:</p>
+    <ul>
+      <li><strong>Short sessions.</strong> Most games take just a few minutes, so a daily visit is easy to fit in.</li>
+      <li><strong>You choose the challenge.</strong> Every game has Easy, Medium and Hard, with no timers and no penalties.</li>
+      <li><strong>Variety.</strong> Seven games, from math and patterns to memory, Sudoku, word guessing, crosswords and jigsaws, exercise different skills and keep things fresh.</li>
+      <li><strong>Gentle rewards.</strong> Progress bars, a day streak, and a tree that grows a little more every day you play and never shrinks.</li>
+      <li><strong>A calm feel.</strong> A warm wood design, soft sounds and optional relaxing music.</li>
+    </ul>
+    <p class="muted" style="font-size:.9rem">Studies have found a link between regular puzzle activity and better thinking skills, but they can’t prove that puzzles are the cause. See the Sources tab on the dashboard.</p>`;
+function srcHTML(){
+  return `<p class="fine">Research behind the study mentioned on this page. These studies are cross-sectional: they show a link between puzzles and thinking skills, not proof that puzzles cause it.</p><ol class="fine src">${SOURCES.map(([t,u]) => `<li>${t} <a href="${u}" target="_blank" rel="noopener">${u.replace('https://','')}</a></li>`).join('')}</ol>`;
+}
+function togglePanel(which){
+  const p=$('#panel'), a=$('#tabAbout'), r=$('#tabSrc');
+  if(p.dataset.open === which){ p.hidden=true; p.dataset.open=''; a.setAttribute('aria-expanded','false'); r.setAttribute('aria-expanded','false'); return; }
+  p.dataset.open = which; p.hidden = false; p.innerHTML = which==='about' ? STORY : srcHTML();
+  a.setAttribute('aria-expanded', String(which==='about')); r.setAttribute('aria-expanded', String(which==='src'));
 }
 function settings(){
   if(SCREEN !== 'settings'){ BACKTO = SCREEN === 'games' ? home : landing; SCREEN = 'settings'; G = null; }
@@ -311,13 +436,14 @@ function settings(){
   view.innerHTML = `<h2>Settings</h2>
     ${t('tmute','Sound',!S.set.mute,'On','Off')}
     ${t('tdark','Appearance',S.set.dark,'Dark','Light')}
+    ${t('tmusic','Relaxing music',S.set.music,'On','Off')}
     <div class="tog"><span>Text size</span><span class="row" style="margin:0">${['small','normal','large'].map(f => `<button class="sec" data-font="${f}" aria-pressed="${(S.set.font||'normal')===f}">${cap(f)}</button>`).join('')}</span></div>
-    <h2 style="margin-top:22px">About SmarterMinds</h2><p>${ABOUT}</p>
     <h2>How to play</h2>${HOW.map(([n,h]) => `<details><summary>${n}</summary><p>${h}</p></details>`).join('')}
     <h2 style="margin-top:22px">Progress</h2>
     <button class="sec" id="reset">Reset my progress</button>
     <div><button class="sec" id="back" style="margin-top:18px">Back</button></div>`;
   $('#tmute').onclick = () => { S.set.mute=!S.set.mute; save(); settings(); };
+  $('#tmusic').onclick = () => { S.set.music=!S.set.music; save(); S.set.music ? startMusic() : stopMusic(); settings(); };
   $('#tdark').onclick = () => { S.set.dark=!S.set.dark; applySettings(); save(); settings(); };
   view.querySelectorAll('[data-font]').forEach(b => b.onclick = () => { S.set.font=b.dataset.font; applySettings(); save(); settings(); });
   $('#reset').onclick = () => { if(confirm('Reset your streak and all progress?')){ const keep=S.set; S=fresh(); S.set=keep; save(); settings(); } };
@@ -803,11 +929,21 @@ view.addEventListener('click', e => { if(e.target.id === 'leave'){ save(); home(
 
 // One shared maximum level (MAX_LEVEL) for every game; fail loudly if any config goes past it.
 console.assert(Object.values(LV).every(g => Object.values(g).flat().every(l => l>=1 && l<=MAX_LEVEL)) && Math.max(...Object.keys(SUDOKU_LEVELS), ...Object.keys(JIG)) <= MAX_LEVEL, 'A level is outside 1 to MAX_LEVEL');
+/* Single-word buttons get the carved wooden sign look (grid squares, keyboard keys and the title sign are left alone) */
+function plankify(){
+  document.querySelectorAll('button').forEach(b => {
+    if(b.id==='brand' || b.id==='tabAbout' || b.id==='tabSrc' || /\b(key|cell|xc|jp|mc)\b/.test(b.className)) return;
+    const w = b.textContent.replace(/[^\p{L}\s]/gu,'').trim().split(/\s+/);
+    b.classList.toggle('plank', w.length===1 && w[0].length>=2);
+  });
+}
+if(typeof MutationObserver !== 'undefined') new MutationObserver(plankify).observe(document.body,{childList:true,subtree:true});
 $('#brand').onclick = landing;
 $('#gear').onclick = () => SCREEN === 'settings' ? BACKTO() : settings();
 $('#dash').onclick = landing;
 applySettings();
 landing();
+plankify();
 </script>
 </body>
 </html>
