@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sharp Minds – Daily Number Games</title>
+<title>SmarterMinds</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -27,7 +27,7 @@
   p{margin:0 0 16px}
   .muted{color:var(--muted)}
   .meta{color:var(--muted);margin-bottom:8px}
-  button{font:inherit;cursor:pointer}
+  button{font:inherit;cursor:pointer;min-height:48px;min-width:48px}
   button:focus-visible{outline:4px solid #1F4E79;outline-offset:3px}
   .big{display:block;width:100%;min-height:76px;margin:0 0 14px;padding:14px 18px;
     font-size:1.6rem;font-weight:700;color:var(--ink);
@@ -73,6 +73,74 @@
   .snum{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:8px;margin-bottom:14px}
   .snum button{min-height:56px;font-size:1.5rem;font-weight:700;color:var(--ink);
     background:linear-gradient(var(--plank-hi),var(--plank));border:3px solid var(--edge);border-radius:12px}
+  .wgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:320px;margin:0 auto 14px}
+  .wt{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;
+    text-transform:uppercase;background:var(--paper);border:3px solid #B58B5C;border-radius:8px}
+  .wt.g,.key.g{background:#3F7D32;color:#fff;border-color:#3F7D32}
+  .wt.y,.key.y{background:#E0A82E;color:var(--ink);border-color:#E0A82E}
+  .wt.x,.key.x{background:#7A6A5A;color:#fff;border-color:#7A6A5A}
+  .kr{display:flex;gap:5px;justify-content:center;margin-bottom:6px}
+  .key{flex:1;max-width:46px;min-height:54px;padding:0;font-size:1rem;font-weight:700;text-transform:uppercase;color:var(--ink);
+    background:linear-gradient(var(--plank-hi),var(--plank));border:2px solid var(--edge);border-radius:8px}
+  .key[data-k=ENTER],.key[data-k=DEL]{max-width:70px;font-size:.75rem}
+  .xg{display:grid;gap:2px;margin:0 auto 16px;max-width:440px}
+  .xc{position:relative;aspect-ratio:1;background:var(--paper);border:2px solid var(--edge);display:flex;
+    align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;color:var(--pencil)}
+  .xc i{position:absolute;top:1px;left:3px;font-size:.6rem;font-style:normal;color:var(--muted)}
+  .xb{aspect-ratio:1;background:var(--dark);border-radius:3px}
+  .cl{display:block;margin:0 0 10px;font-size:1rem}
+  .cl input{display:block;margin-top:4px;width:100%;font:inherit;font-size:1.2rem;letter-spacing:.25em;text-transform:uppercase;
+    padding:8px 10px;border:3px solid var(--edge);border-radius:10px;background:var(--paper);color:var(--ink)}
+  .cl input.bad{background:var(--bad-soft)}
+  .jg{display:grid;gap:3px;aspect-ratio:3/2;max-width:520px;margin:0 auto 14px;background:var(--dark);padding:3px;border-radius:8px}
+  .jp{padding:0;min-height:0;border:3px solid transparent;border-radius:4px;background-repeat:no-repeat}
+  .jp.ok{border-color:#3F7D32}
+  .jp.sel{border-color:#F2B705;outline:3px solid #F2B705;z-index:1}
+  html[data-theme="dark"]{--wood:#1F140C;--maple:#2E2118;--paper:#3B2C20;--plank:#6A4A2E;--plank-hi:#7B5836;
+    --edge:#C9A06A;--dark:#120A05;--ink:#F6E9D2;--muted:#CDB89A;--pencil:#8EC5F0;--good-soft:#2F4A2A;--bad-soft:#6B2E24}
+  html[data-theme="dark"] .primary,html[data-theme="dark"] .pad .go{background:#8A5A2B;color:#fff}
+  html[data-theme="dark"] .cell.given{background:#4A3829}
+  html[data-theme="dark"] .cell.sel{background:#8A6B1E}
+  html[data-theme="dark"] .stat,html[data-theme="dark"] .why{background:#3B2C20}
+  html[data-theme="dark"] .wt{border-color:#7A5A3A}
+  html[data-font="small"]{font-size:16px}
+  html[data-font="large"]{font-size:24px}
+  .top{flex-wrap:wrap;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+  #brand{background:none;border:none;font-size:1.5rem;font-weight:700;color:var(--ink);padding:4px 0}
+  #gear,#dash{min-height:48px;padding:6px 14px}
+  .tb{display:flex;gap:8px}
+  .pb{height:16px;background:var(--paper);border:2px solid var(--edge);border-radius:10px;overflow:hidden;margin:0 0 16px}
+  .pb div{height:100%;background:#3F7D32;transition:width .3s}
+  .gc{background:var(--paper);border:2px solid var(--edge);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+  .gc strong{font-size:1.3rem}
+  .gc small{display:block;color:var(--muted);margin-bottom:10px}
+  .row .sec{flex:1}
+  .sec.last{border-color:var(--good)}
+  .sec[aria-pressed="true"]{background:var(--edge);color:#FFF4DE}
+  .tog{flex-wrap:wrap;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+  .stat .n{font-size:3rem;font-weight:700;line-height:1}
+  .primary+.sec{margin-left:10px}
+  #leave{margin-top:14px}
+  details{background:var(--paper);border:2px solid var(--edge);border-radius:12px;padding:8px 14px;margin-bottom:10px}
+  summary{font-weight:700;cursor:pointer;min-height:44px;display:flex;align-items:center}
+  .cell,.xc,.jp,.mc{min-width:0}
+  .key{min-width:28px}
+  .prompt.long{font-size:1.7rem;line-height:1.3}
+  .mg{display:grid;gap:8px;max-width:320px;margin:0 auto 18px}
+  .mc{aspect-ratio:1;min-height:64px;padding:0;border:3px solid var(--edge);border-radius:12px;background:var(--paper)}
+  .mc.on{background:#F2B705;border-color:var(--dark)}
+  .mc.right{outline:4px solid var(--good)}
+  .nt{font-size:.5rem;line-height:1.1;font-weight:400;color:var(--muted);padding:1px;word-break:break-all}
+  .xc{padding:0;border-radius:0;min-height:0;cursor:pointer}
+  .xc.hl{background:#F6E3A1}
+  .xc.cur{background:#F2B705;color:#2B1A0E}
+  html[data-theme="dark"] .xc.hl{background:#6B5420}
+  .cl.sel{outline:3px solid #F2B705;outline-offset:3px;border-radius:8px}
+  .jp{position:relative}
+  .jp.sel{transform:scale(.93);outline-width:4px}
+  .jp.sel::after{content:"Selected";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#F2B705;color:#2B1A0E;font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:6px}
+  .src li{margin-bottom:8px}
+  .src a{color:inherit}
   .foot{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px}
   .fine{font-size:.72rem;color:var(--muted);flex:1 1 220px}
   @media (max-width:420px){html{font-size:18px}.prompt{font-size:2.4rem}.digits{font-size:2.8rem}main{margin:10px;padding:18px 14px 28px}}
@@ -81,6 +149,7 @@
 </head>
 <body>
 <main>
+  <header class="top"><button id="brand">SmarterMinds</button><span class="tb"><button class="sec" id="dash">Dashboard</button><button class="sec" id="gear" aria-label="Settings">⚙ Settings</button></span></header>
   <div id="view"></div>
 </main>
 
@@ -94,16 +163,23 @@ const $ = s => document.querySelector(s);
 const GAMES = {
   math:    { title: 'Quick Math',           blurb: 'Solve a sum in your head.' },
   pattern: { title: 'Number Patterns',      blurb: 'Find the next number in the pattern.' },
-  memory:  { title: 'Remember the Numbers', blurb: 'Look at the numbers, then type them back.' },
-  sudoku:  { title: 'Sudoku',               blurb: 'Fill the grid so no number repeats.' }
+  memory:  { title: 'Memory Challenge', blurb: 'Remember numbers and square positions.' },
+  sudoku:  { title: 'Sudoku',               blurb: 'Fill the grid so no number repeats.' },
+  wordle:    { title: 'Word Guess',  blurb: 'Guess the five-letter word. A new word every time.' },
+  crossword: { title: 'Mini Crossword', blurb: 'Solve the clues to fill the grid.' },
+  jigsaw:    { title: 'Jigsaw Puzzle', blurb: 'Swap pieces to rebuild the picture.' }
 };
 
 /* ---------- Saved progress (stays on this device's browser) ---------- */
-function fresh(){ return { levels:{ math:1, pattern:1, memory:1, sudoku:1 }, days:[] }; }
+function fresh(){ return { levels:{ math:1, pattern:1, memory:1, sudoku:1 }, days:[], diff:{}, set:{ mute:false, dark:false, font:'normal' } }; }
 function load(){ try { return JSON.parse(localStorage.getItem('sharpminds')) || fresh(); } catch(e){ return fresh(); } }
 function save(){ try { localStorage.setItem('sharpminds', JSON.stringify(S)); } catch(e){} }
 let S = load();
-S.levels.sudoku = S.levels.sudoku || 1;   // for people who saved progress before Sudoku existed
+S.levels.sudoku = S.levels.sudoku || 1;
+S.levels.crossword = S.levels.crossword || 1;
+S.levels.jigsaw = S.levels.jigsaw || 1;
+S.diff = S.diff || {};
+S.set = Object.assign({ mute:false, dark:false, font:'normal' }, S.set);   // for people who saved progress before Sudoku existed
 
 /* ---------- Helpers ---------- */
 const ri = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
@@ -125,10 +201,31 @@ function makeMath(l){
   else if(l===5){ if(Math.random()<.5){ a=ri(40,99); b=ri(21,89); op='+'; } else { a=ri(60,99); b=ri(21,59); op='−'; } }
   else { a=ri(6,12); b=ri(6,12); op='×'; }
   const ans = op==='+' ? a+b : op==='−' ? a-b : a*b;
-  return { prompt:`${a} ${op} ${b} = ?`, ans, opts: options(ans) };
+  return mathVariant({ prompt:`${a} ${op} ${b} = ?`, ans, opts: options(ans), a, b, op }, l);
 }
 
+function mathVariant(q,l){
+  const r = Math.random();
+  if(l>=2 && r<.18){ const hi=l>=5?12:9, d=ri(2,hi), c=ri(2,hi); return { prompt:`${d*c} ÷ ${d} = ?`, ans:c, opts:options(c) }; }   // division
+  if(r<.42) return { prompt:`${q.a} ${q.op} ? = ${q.ans}`, ans:q.b, opts:options(q.b) };                                              // missing number
+  if(r<.58){                                                                                                                            // word problem
+    const txt = q.op==='+' ? `You pick ${q.a} flowers, then ${q.b} more. How many in all?`
+      : q.op==='−' ? `You have ${q.a} cookies and eat ${q.b}. How many are left?`
+      : `There are ${q.a} boxes with ${q.b} pencils each. How many pencils?`;
+    return { prompt:txt, ans:q.ans, opts:q.opts };
+  }
+  return q;
+}
+const fromSeq = t => ({ prompt: t.slice(0,-1).join(', ')+', ?', ans: t[t.length-1], opts: options(t[t.length-1]) });
+function patternVariant(l){
+  const r = Math.random();
+  if(l>=3 && r<.3){ const t=[ri(1,3),ri(1,4)]; while(t.length<6) t.push(t[t.length-1]+t[t.length-2]); return fromSeq(t); }   // Fibonacci-style
+  if(l>=4 && r<.55){ const a=ri(3,8), b=ri(1,a-1), t=[]; let v=ri(10,20); for(let i=0;i<6;i++){ t.push(v); v += i%2 ? -b : a; } return fromSeq(t); } // alternating up and down
+  if(l>=5 && r<.75){ const d1=ri(2,5), d2=ri(3,9), x=ri(1,9), y=ri(20,40); return fromSeq([x,y,x+d1,y+d2,x+2*d1,y+2*d2]); }   // two patterns taking turns
+  return null;
+}
 function makePattern(l){
+  const v = patternVariant(l); if(v) return v;
   const s = [], st = ri(1,10);
   if(l===1){ const d=ri(1,5); for(let i=0;i<5;i++) s.push(st+d*i); }
   else if(l===2){ const d=ri(2,10), top=st+d*5; for(let i=0;i<5;i++) s.push(top-d*i); }
@@ -140,41 +237,111 @@ function makePattern(l){
   return { prompt: s.slice(0,-1).join(', ') + ', ?', ans, opts: options(ans) };
 }
 
-/* ---------- Home screen ---------- */
-function home(){
-  const weekAgo = Date.now() - 7*86400000;
-  const thisWeek = S.days.filter(d => new Date(d).getTime() > weekAgo).length;
+/* ---------- Helpers for difficulty, sound, streak, progress ---------- */
+const LV = { math:{easy:[1,2],medium:[3,4],hard:[5,6]}, pattern:{easy:[1,2],medium:[3,4],hard:[5,6]}, memory:{easy:[1,2],medium:[3,4],hard:[5,6]},
+  sudoku:{easy:[2,3],medium:[4,5],hard:[6]}, crossword:{easy:[1],medium:[3],hard:[5]}, jigsaw:{easy:[1,2],medium:[3,4],hard:[5,6]} };
+const pickLevel = k => { const a = LV[k][S.diff[k] || 'easy']; return a[ri(0,a.length-1)]; };
+const cap = t => t ? t[0].toUpperCase()+t.slice(1) : '';
+const bar = f => `<div class="pb" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(f*100)}"><div style="width:${f*100}%"></div></div>`;
+function streak(){
+  const set = new Set(S.days.map(d => new Date(d).toDateString()));
+  const d = new Date(); if(!set.has(d.toDateString())) d.setDate(d.getDate()-1);
+  let n = 0; while(set.has(d.toDateString())){ n++; d.setDate(d.getDate()-1); } return n;
+}
+function applySettings(){ document.documentElement.dataset.theme = S.set.dark ? 'dark' : 'light'; document.documentElement.dataset.font = S.set.font || 'normal'; }
+
+let AC = null;
+function tone(f,t0,d,v){ const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime+t0;
+  o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+d+.02); }
+function sfx(kind){
+  if(S.set.mute) return;
+  try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume();
+    if(kind==='win') [523,659,784,1047].forEach((f,i) => tone(f,i*.12,.3,.18)); else tone(700,0,.06,.12); } catch(e){}
+}
+document.addEventListener('click', e => { if(e.target.closest && e.target.closest('button')) sfx('click'); });
+document.addEventListener('input', () => sfx('click'));
+
+const SOURCES = [
+ ['Wesnes KA, Brooker H, Ballard C, et al. (2019). An online investigation of the relationship between the frequency of word puzzle use and cognitive function in a large sample of older adults. International Journal of Geriatric Psychiatry.','https://doi.org/10.1002/gps.5033'],
+ ['Brooker H, Wesnes KA, Ballard C, et al. (2019). The relationship between the frequency of number-puzzle use and baseline cognitive function in a large online sample of adults aged 50 and over. International Journal of Geriatric Psychiatry, 34(7), 932–940.','https://doi.org/10.1002/gps.5085'],
+ ['University of Exeter (2019, May 16). Regular crosswords and number puzzles linked to sharper brain in later life. ScienceDaily.','https://www.sciencedaily.com/releases/2019/05/190516082349.htm'],
+ ['NIHR Join Dementia Research. Can doing a daily crossword or sudoku puzzle keep your brain young? (a plain-language review of the two studies and their limits).','https://news.joindementiaresearch.nihr.ac.uk/can-doing-a-daily-crossword-or-sudoku-puzzle-keep-your-brain-young/']
+];
+const ABOUT = "SmarterMinds was created by a high school junior who loves math and coding. He built this site to help people keep their minds active as they age, and to support the fight against cognitive decline. Number puzzles, pattern games, memory challenges and word games all ask your brain to focus, remember and reason, and doing that regularly is a great habit. The games are simple, readable and free to play.";
+const HOW = [
+ ['Quick Math','Solve each sum in your head, then tap the right answer. Each round has 5 questions.'],
+ ['Number Patterns','Work out the rule in the row of numbers, such as adding the same amount each time, then tap the number that comes next.'],
+  ['Memory Challenge','You’ll get number rounds and picture rounds. For numbers, study the digits as long as you like, tap “I’ve got them”, then type them back on the keypad. For squares, remember which ones light up, then tap those squares. Tap Check when you’re done.'],
+ ['Sudoku','Fill every row, column and boxed block with each number exactly once. Tap a square, then a number. Use Check to find mistakes, or Hint for help.'],
+ ['Word Guess','Guess the hidden five-letter word in six tries. Every guess must be a real word. Green means the right letter in the right spot, yellow means the right letter in the wrong spot, and grey means it isn’t in the word.'],
+ ['Mini Crossword','Read each clue and type the answer in its box. Answers share letters where they cross, so one answer can help with another.'],
+ ['Jigsaw Puzzle','Tap one piece, then tap another to swap them. Pieces with a green edge are in the right place. The small picture is your guide.']
+];
+
+/* ---------- Home (welcome), Games menu, Settings ---------- */
+let SCREEN = 'landing', BACKTO = landing;
+function landing(){
+  SCREEN = 'landing'; G = null; $('#dash').style.display = 'none';
+  const n = streak(), today = S.days.includes(new Date().toDateString());
   view.innerHTML = `
-    <h1>Sharp Minds</h1>
-    <p class="muted">Pick a game. There are no timers, so take all the time you like.</p>
-    <div class="stat">Days played this week: <strong>${thisWeek}</strong></div>
-    ${Object.entries(GAMES).map(([k,g]) => `
-      <button class="big" data-game="${k}">${g.title}
-        <small>${g.blurb} Level ${S.levels[k]}</small></button>`).join('')}
-    <div class="why">${QUOTE.t}${QUOTE.n ? ` <span class="muted">${QUOTE.n}</span>` : ''}</div>
-    <div class="foot"><button class="link" id="reset">Reset my progress</button>
-      <span class="fine">These games help keep your mind active and engaged. They are not a medical test or a treatment.</span></div>`;
-  view.querySelectorAll('[data-game]').forEach(b => b.onclick = () => start(b.dataset.game));
-  $('#reset').onclick = () => { if(confirm('Reset all levels and history?')){ S = fresh(); save(); home(); } };
+    <h1>Ready to give your brain a workout?</h1>
+    <div class="stat"><span class="n">${n}</span> day streak<br><small class="muted">${today ? 'You’ve played today. Great job!' : (n ? 'Finish a game today to keep your streak going.' : 'Finish a game today to start your streak.')}</small></div>
+    <button class="primary" id="play" style="width:100%;font-size:1.5rem;min-height:72px">Play games</button>
+    <div class="why" style="margin-top:20px">${QUOTE.t}${QUOTE.n ? ` <span class="muted">${QUOTE.n}</span>` : ''}</div>
+    <p class="fine">These games help keep your mind active and engaged. They are not a medical test or a treatment.</p>
+    <details class="src"><summary>Sources</summary>
+      <p class="fine">Research behind the study mentioned above. These studies are cross-sectional: they show a link between puzzles and thinking skills, not proof that puzzles cause it.</p>
+      <ol class="fine">${SOURCES.map(([t,u]) => `<li>${t} <a href="${u}" target="_blank" rel="noopener">${u.replace('https://','')}</a></li>`).join('')}</ol></details>`;
+  $('#play').onclick = home;
+}
+function home(){
+  SCREEN = 'games'; G = null; $('#dash').style.display = '';
+  view.innerHTML = `<h2>Choose a game</h2><p class="muted">Pick a difficulty to begin. There are no timers.</p>` +
+    Object.entries(GAMES).map(([k,g]) => `<div class="gc"><strong>${g.title}</strong><small>${g.blurb}</small><div class="row">${
+      k==='wordle' ? `<button class="sec" data-game="${k}">Play</button>`
+      : ['easy','medium','hard'].map(d => `<button class="sec${S.diff[k]===d?' last':''}" data-game="${k}" data-d="${d}">${cap(d)}</button>`).join('')}</div></div>`).join('');
+  view.querySelectorAll('[data-game]').forEach(b => b.onclick = () => {
+    const k=b.dataset.game; if(b.dataset.d){ S.diff[k]=b.dataset.d; save(); } start(k); });
+}
+function settings(){
+  if(SCREEN !== 'settings'){ BACKTO = SCREEN === 'games' ? home : landing; SCREEN = 'settings'; G = null; }
+  $('#dash').style.display = '';
+  const t = (id,label,on,a,b) => `<div class="tog"><span>${label}</span><button class="sec" id="${id}" aria-pressed="${on}">${on?a:b}</button></div>`;
+  view.innerHTML = `<h2>Settings</h2>
+    ${t('tmute','Sound',!S.set.mute,'On','Off')}
+    ${t('tdark','Appearance',S.set.dark,'Dark','Light')}
+    <div class="tog"><span>Text size</span><span class="row" style="margin:0">${['small','normal','large'].map(f => `<button class="sec" data-font="${f}" aria-pressed="${(S.set.font||'normal')===f}">${cap(f)}</button>`).join('')}</span></div>
+    <h2 style="margin-top:22px">About SmarterMinds</h2><p>${ABOUT}</p>
+    <h2>How to play</h2>${HOW.map(([n,h]) => `<details><summary>${n}</summary><p>${h}</p></details>`).join('')}
+    <h2 style="margin-top:22px">Progress</h2>
+    <button class="sec" id="reset">Reset my progress</button>
+    <div><button class="sec" id="back" style="margin-top:18px">Back</button></div>`;
+  $('#tmute').onclick = () => { S.set.mute=!S.set.mute; save(); settings(); };
+  $('#tdark').onclick = () => { S.set.dark=!S.set.dark; applySettings(); save(); settings(); };
+  view.querySelectorAll('[data-font]').forEach(b => b.onclick = () => { S.set.font=b.dataset.font; applySettings(); save(); settings(); });
+  $('#reset').onclick = () => { if(confirm('Reset your streak and all progress?')){ const keep=S.set; S=fresh(); S.set=keep; save(); settings(); } };
+  $('#back').onclick = () => BACKTO();
 }
 
 /* ---------- Game flow ---------- */
 let G = null;
 function start(key){
-  if(key === 'sudoku') return startSudoku();
+  const go = { sudoku:startSudoku, wordle:startWordle, crossword:startCrossword, jigsaw:startJigsaw }[key];
+  if(go) return go();
   G = { key, i:0, correct:0, run:0 };
   key === 'memory' ? showMemory() : showQuestion();
 }
 
 function showQuestion(){
   const maker = G.key === 'math' ? makeMath : makePattern;
-  const q = maker(S.levels[G.key]);
+  const q = maker(pickLevel(G.key));
   view.innerHTML = `
-    <p class="meta">${GAMES[G.key].title} · Question ${G.i+1} of ${ROUNDS}</p>
-    <h2 class="prompt">${q.prompt}</h2>
+    <p class="meta">${GAMES[G.key].title} · Question ${G.i+1} of ${ROUNDS}</p>${bar(G.i/ROUNDS)}
+    <h2 class="prompt${q.prompt.length>14?' long':''}">${q.prompt}</h2>
     <div class="opts">${q.opts.map(o => `<button class="big" data-v="${o}">${o}</button>`).join('')}</div>
     <div id="fb" role="status" aria-live="polite"></div>
-    <button class="link" id="leave">Leave this game</button>`;
+    <button class="sec" id="leave">Leave this game</button>`;
   view.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
     view.querySelectorAll('.opts button').forEach(x => { x.disabled = true; if(+x.dataset.v === q.ans) x.classList.add('right'); });
     afterAnswer(+b.dataset.v === q.ans, `The answer is ${q.ans}.`);
@@ -182,21 +349,22 @@ function showQuestion(){
 }
 
 function showMemory(){
-  const len = Math.min(2 + S.levels.memory, 9);
+  if(Math.random() < .5) return showGrid();
+  const len = 2 + pickLevel('memory');
   G.seq = Array.from({length:len}, () => ri(0,9)).join('');
   view.innerHTML = `
-    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>
+    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>${bar(G.i/ROUNDS)}
     <p>Take your time. Remember these numbers.</p>
     <div class="digits" aria-label="Numbers to remember">${G.seq.split('').join(' ')}</div>
     <button class="primary" id="ready">I’ve got them</button>
-    <button class="link" id="leave">Leave this game</button>`;
+    <button class="sec" id="leave">Leave this game</button>`;
   $('#ready').onclick = askMemory;
 }
 
 function askMemory(){
   let typed = '';
   view.innerHTML = `
-    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>
+    <p class="meta">${GAMES.memory.title} · Question ${G.i+1} of ${ROUNDS}</p>${bar(G.i/ROUNDS)}
     <p>Type the numbers you saw.</p>
     <div class="digits typed" id="typed" aria-live="polite"></div>
     <div class="pad" id="pad">
@@ -204,7 +372,7 @@ function askMemory(){
       <button data-k="del">Delete</button><button data-k="0">0</button><button data-k="go" class="go">Check</button>
     </div>
     <div id="fb" role="status" aria-live="polite"></div>
-    <button class="link" id="leave">Leave this game</button>`;
+    <button class="sec" id="leave">Leave this game</button>`;
   const show = () => $('#typed').textContent = typed.split('').join(' ') || '\u00A0';
   show();
   view.querySelectorAll('#pad button').forEach(b => b.onclick = () => {
@@ -221,16 +389,41 @@ function askMemory(){
   });
 }
 
-/* Makes the game easier or harder: 2 right in a row = level up, 2 wrong = level down */
-function adapt(ok){
-  G.run = ok ? (G.run > 0 ? G.run+1 : 1) : (G.run < 0 ? G.run-1 : -1);
-  if(G.run >= 2 && S.levels[G.key] < MAX_LEVEL){ S.levels[G.key]++; G.run = 0; }
-  if(G.run <= -2 && S.levels[G.key] > 1){ S.levels[G.key]--; G.run = 0; }
-}
 
+function gridHTML(size,on,live){
+  return `<div class="mg" style="grid-template-columns:repeat(${size},1fr)">${[...Array(size*size)].map((_,i) => live
+    ? `<button class="mc${on.has(i)?' on':''}" data-c="${i}" aria-label="Square ${i+1}" aria-pressed="${on.has(i)}"></button>`
+    : `<div class="mc${on.has(i)?' on':''}"></div>`).join('')}</div>`;
+}
+function showGrid(){
+  const cnt = 2 + pickLevel('memory'), size = cnt > 5 ? 4 : 3, cells = new Set();
+  while(cells.size < cnt) cells.add(ri(0, size*size-1));
+  G.grid = { size, cells, pick:new Set() };
+  view.innerHTML = `<p class="meta">Memory Challenge · Question ${G.i+1} of ${ROUNDS}</p>${bar(G.i/ROUNDS)}
+    <p>Remember which ${cnt} squares light up.</p>${gridHTML(size,cells,false)}
+    <button class="primary" id="ready">I’ve got them</button>
+    <button class="sec" id="leave">Leave this game</button>`;
+  $('#ready').onclick = askGrid;
+}
+function askGrid(){
+  const g = G.grid, paint = () => {
+    view.innerHTML = `<p class="meta">Memory Challenge · Question ${G.i+1} of ${ROUNDS}</p>${bar(G.i/ROUNDS)}
+      <p>Tap the ${g.cells.size} squares that lit up.</p>${gridHTML(g.size,g.pick,true)}
+      <button class="primary" id="chkg">Check</button>
+      <div id="fb" role="status" aria-live="polite"></div>
+      <button class="sec" id="leave">Leave this game</button>`;
+    view.querySelectorAll('.mc').forEach(b => b.onclick = () => { const c=+b.dataset.c; g.pick.has(c) ? g.pick.delete(c) : g.pick.add(c); paint(); });
+    $('#chkg').onclick = () => {
+      view.querySelectorAll('.mc').forEach(b => { b.disabled = true; if(g.cells.has(+b.dataset.c)) b.classList.add('right'); });
+      $('#chkg').disabled = true;
+      afterAnswer(g.pick.size===g.cells.size && [...g.pick].every(c => g.cells.has(c)), 'The squares that lit up have a green outline.');
+    };
+  };
+  paint();
+}
 function afterAnswer(ok, detail){
   G.i++; if(ok) G.correct++;
-  adapt(ok);
+  $('.pb div').style.width = (G.i/ROUNDS*100) + '%';
   const last = G.i >= ROUNDS;
   $('#fb').innerHTML = (ok ? '<strong>Correct.</strong> Well done.' : `<strong>Not quite.</strong> ${detail}`) +
     `<button class="primary next" id="next">${last ? 'See my results' : 'Next question'}</button>`;
@@ -239,16 +432,14 @@ function afterAnswer(ok, detail){
 }
 
 function finish(){
-  const today = new Date().toDateString();
-  if(!S.days.includes(today)) S.days.push(today);
-  save();
+  played(); sfx('win');
   const msg = G.correct >= 4 ? 'Excellent work.' : G.correct >= 2 ? 'Good effort. Every round keeps your mind active.' : 'Thanks for playing. The next round will adjust to suit you.';
   view.innerHTML = `
     <h2>You got ${G.correct} out of ${ROUNDS}</h2>
     <p>${msg}</p>
-    <p class="muted">${GAMES[G.key].title} is now at Level ${S.levels[G.key]}.</p>
+    <p class="muted">Difficulty: ${cap(S.diff[G.key])}. Streak: ${streak()} day${streak()===1?'':'s'}.</p>
     <button class="primary" id="again">Play again</button>
-    <button class="link" id="home">Back to games</button>`;
+    <button class="sec" id="home">Back to games</button>`;
   $('#again').onclick = () => start(G.key);
   $('#home').onclick = home;
 }
@@ -257,10 +448,8 @@ function finish(){
 const SUDOKU_LEVELS = {
   1:{n:4,br:2,bc:2,blanks:6},  2:{n:4,br:2,bc:2,blanks:9},
   3:{n:6,br:2,bc:3,blanks:14}, 4:{n:6,br:2,bc:3,blanks:20},
-  5:{n:9,br:3,bc:3,blanks:34}, 6:{n:9,br:3,bc:3,blanks:40},
-  7:{n:9,br:3,bc:3,blanks:46}, 8:{n:9,br:3,bc:3,blanks:50}
+  5:{n:9,br:3,bc:3,blanks:34}, 6:{n:9,br:3,bc:3,blanks:44}
 };
-const SUDOKU_MAX = 8;
 
 function sdOk(g,n,br,bc,r,c,v){
   for(let i=0;i<n;i++) if(g[r][i]===v || g[i][c]===v) return false;
@@ -301,8 +490,15 @@ function sdMake(l){
   return { n,br,bc,sol, cur:p.map(r=>r.slice()), given:p.map(r=>r.map(v=>v!==0)) };
 }
 
+function sdClash(p,r,c){
+  const v=p.cur[r][c], n=p.n;
+  for(let i=0;i<n;i++) if((i!==c && p.cur[r][i]===v) || (i!==r && p.cur[i][c]===v)) return true;
+  const r0=r-r%p.br, c0=c-c%p.bc;
+  for(let i=0;i<p.br;i++) for(let j=0;j<p.bc;j++){ const rr=r0+i, cc=c0+j; if((rr!==r || cc!==c) && p.cur[rr][cc]===v) return true; }
+  return false;
+}
 function startSudoku(){
-  G = { key:'sudoku', hints:0, sel:null, bad:null, msg:'', p:sdMake(S.levels.sudoku) };
+  G = { key:'sudoku', hints:0, sel:null, bad:null, msg:'', notes:{}, notesOn:false, p:sdMake(pickLevel('sudoku')) };
   drawSudoku();
 }
 function drawSudoku(){
@@ -312,32 +508,35 @@ function drawSudoku(){
     const v=p.cur[r][c], cls=['cell'];
     if(p.given[r][c]) cls.push('given');
     if(G.sel && G.sel[0]===r && G.sel[1]===c) cls.push('sel');
-    if(G.bad && G.bad.has(r*n+c)) cls.push('bad');
+    if((G.bad && G.bad.has(r*n+c)) || (v && !p.given[r][c] && sdClash(p,r,c))) cls.push('bad');
     if((c+1)%p.bc===0 && c<n-1) cls.push('br');
     if((r+1)%p.br===0 && r<n-1) cls.push('bb');
-    cells += `<button class="${cls.join(' ')}" data-r="${r}" data-c="${c}" aria-label="Row ${r+1}, column ${c+1}, ${v||'empty'}">${v||''}</button>`;
+    cells += `<button class="${cls.join(' ')}" data-r="${r}" data-c="${c}" aria-label="Row ${r+1}, column ${c+1}, ${v||'empty'}">${v || (G.notes[r+','+c] ? `<span class="nt">${[...G.notes[r+','+c]].sort().join(' ')}</span>` : '')}</button>`;
   }
   view.innerHTML = `
-    <p class="meta">Sudoku · Level ${lvl} of ${SUDOKU_MAX} · ${n}×${n} grid</p>
+    <p class="meta">Sudoku · ${cap(S.diff.sudoku)} · ${n}×${n} grid</p>${bar(p.cur.flat().filter(v=>v).length/(n*n))}
     <p>Tap a square, then tap a number. Each row, column and boxed block needs 1 to ${n} with no repeats.</p>
     <div class="grid n${n}" style="grid-template-columns:repeat(${n},1fr)">${cells}</div>
     <div class="snum">${[...Array(n)].map((_,i)=>`<button data-num="${i+1}">${i+1}</button>`).join('')}<button data-num="0">Erase</button></div>
-    <div class="row"><button class="sec" id="chk">Check my work</button><button class="sec" id="hint">Give me a hint</button><button class="sec" id="easy">Easier puzzle</button></div>
+    <div class="row"><button class="sec" id="nt" aria-pressed="${G.notesOn}">✎ Notes: ${G.notesOn?'On':'Off'}</button><button class="sec" id="chk">Check my work</button><button class="sec" id="hint">Give me a hint</button></div>
     <div id="fb" role="status" aria-live="polite">${G.msg}</div>
-    <button class="link" id="home">Leave this game</button>`;
+    <button class="sec" id="home">Leave this game</button>`;
   view.querySelectorAll('.cell').forEach(b => b.onclick = () => {
     const r=+b.dataset.r, c=+b.dataset.c;
     if(!p.given[r][c]){ G.sel=[r,c]; drawSudoku(); }
   });
   view.querySelectorAll('[data-num]').forEach(b => b.onclick = () => {
     if(!G.sel){ G.msg='Tap an empty square first.'; return drawSudoku(); }
-    p.cur[G.sel[0]][G.sel[1]] = +b.dataset.num; G.bad=null; G.msg='';
+    const [sr,sc]=G.sel, num=+b.dataset.num, key=sr+','+sc;
+    if(G.notesOn && num && p.cur[sr][sc]===0){ const st=G.notes[key]=G.notes[key]||new Set(); st.has(num) ? st.delete(num) : st.add(num); G.msg=''; return drawSudoku(); }
+    delete G.notes[key]; p.cur[sr][sc]=num; G.bad=null; G.msg='';
     if(p.cur.every(row => row.every(v => v!==0))){
       if(p.cur.every((row,r) => row.every((v,c) => v===p.sol[r][c]))) return sudokuWin();
       G.msg='Every square is filled, but a few are wrong. Tap “Check my work” to see which.';
     }
     drawSudoku();
   });
+  $('#nt').onclick = () => { G.notesOn = !G.notesOn; G.msg = G.notesOn ? 'Notes are on. Tap a number to jot it down as a possibility.' : ''; drawSudoku(); };
   $('#chk').onclick = () => {
     G.bad = new Set();
     p.cur.forEach((row,r) => row.forEach((v,c) => { if(v && v!==p.sol[r][c]) G.bad.add(r*n+c); }));
@@ -352,24 +551,230 @@ function drawSudoku(){
     if(p.cur.every((row,r) => row.every((v,c) => v===p.sol[r][c]))) return sudokuWin();
     drawSudoku();
   };
-  $('#easy').onclick = () => { S.levels.sudoku = Math.max(1, lvl-1); save(); startSudoku(); };
   $('#home').onclick = home;
 }
-function sudokuWin(){
-  const lvl=S.levels.sudoku, up = G.hints===0 && lvl<SUDOKU_MAX;
-  if(up) S.levels.sudoku++;
-  const today = new Date().toDateString();
-  if(!S.days.includes(today)) S.days.push(today);
-  save();
-  const note = G.hints===0
-    ? (up ? `You solved it without any hints, so you move up to Level ${S.levels.sudoku}.` : 'You solved it without any hints at the top level. Impressive.')
-    : `You used ${G.hints} hint${G.hints>1?'s':''}, so you stay at Level ${lvl}. Try again for a move up.`;
-  view.innerHTML = `<h2>Puzzle solved!</h2><p>${note}</p>
-    <button class="primary" id="again">Next puzzle</button>
-    <button class="link" id="home">Back to games</button>`;
-  $('#again').onclick = startSudoku;
-  $('#home').onclick = home;
+function sudokuWin(){ winScreen('Puzzle solved!', G.hints ? `You used ${G.hints} hint${G.hints>1?'s':''}. Try one with none next time.` : 'Solved with no hints. Excellent!', ['Next puzzle',startSudoku]); }
+
+/* ---------- Shared ---------- */
+function played(){ const t=new Date().toDateString(); if(!S.days.includes(t)) S.days.push(t); save(); }
+
+function winScreen(title,note,again,img){
+  sfx('win'); played();
+  view.innerHTML = `<h2>${title}</h2>${img||''}<p>${note} Streak: ${streak()} day${streak()===1?'':'s'}.</p>
+    <button class="primary" id="again">${again[0]}</button><button class="sec" id="home">Back to games</button>`;
+  $('#again').onclick = again[1]; $('#home').onclick = home;
 }
+
+/* ---------- Word Guess (Wordle-style, unlimited) ---------- */
+const WORDS = ("apple beach begin bench black blank blind block blood board bread break bring brown build candy carry chair chart cheap check chest child clean clear climb clock close cloud coach coast color count court cover crowd dance dream dress drink drive earth empty enjoy equal event every field first floor focus fresh front fruit glass grace grand grape great green group guest happy heart honey horse house human ideal juice knife laugh learn lemon level light local lunch magic march match maybe metal money month mouth music night noble north ocean offer onion order other paint panel paper party peace pearl phone piano pilot place plain plant plate point pound power price proud queen quick quiet radio raise range reach ready river round royal scale scene score sense shape share sharp sheep shelf shine shirt shore short sleep small smile smoke solid sound south space speak spend spice sport staff stage stand start state steam steel stone store storm story sugar sunny sweet table taste teach thank thing think three tiger title today tooth touch tower track trade train treat trust truth uncle under union upper usual value video visit voice waste watch water wheel white whole woman world worth write young youth").split(' ').filter(w => w.length === 5);
+const VALID = new Set(WORDS.concat("aalii abaca aback abaft abamp abase abash abate abbes abbey abbot abeam abele abets abhor abide abies abmho abode abohm abort about above abuse abuts abuzz abysm abyss acari accel acerb ached aches achoo acids acing acini acmes acned acorn acred acres acrid acted actin actor acute adage adapt addax added adder addle adept adieu adios adits adman admen admin admit admix adobe adopt adore adorn adown adult adust adzes aecia aedes aegis aerie aeron affix afire afoot afore afoul afrit again agama agape agate agave agent agger aggie aggro agile aging agios agist agita aglet agley aglow agone agony agora agree agric agron ahead aided aides ailed aimed aioli aired airts aisle aitch akees akene alack alarm alary alate album alder aldol aleph alert algae algal algid algin algor alias alibi alien align alike alkyd alkyl allay allee alley allot allow alloy allyl aloes aloft aloha aloin alone along aloof aloud alpha altar alter altos alula alums amahs amain amass amaze amber ambit amble ambos ambry amend ament amice amide amigo amine amino amiss amity amnio among amour ample amply amuse ancon anear anele anent angel anger angle angry angst anile anils anima anime anion anise ankhs ankle ankus annal annas annex annoy annul anoas anode anole anons anted antes antic antiq antis antre antsy anvil aorta apace apart apeak apery aphid aphis apian aping apish apnea aport appel apple apply apron apses apsis apter aptly aquas araks arbor arced archt ardeb ardor areal areas areca arena arete argal argil argol argon argot argue arias ariel arils arise armed armet armor aroid aroma arose arras array arris arrow arsed arsis arson artel artsy arums ascot ascus asdic ashed aside asked askew aspen aspic assai assay asset assoc aster astir atilt atlas atman atoll atoms atomy atone atony atria atrip attar attic audio audit auger aught augur aulic aulos aunts aural aurar auras auric aurum autos auxin avail avast avens avert avian avoid avoir avows await awake award aware awash awful awing awned awoke axial axils axing axiom axles axons ayahs ayins azide azine azoic azole azote azure baaed babas babel babes babul baccy backs bacon badge badly bagel baggy bahts bails bairn baits baiza baize baked baker bakes balas balds baldy baled baler bales balks balky balls bally balms balmy balsa banal bands bandy banes bangs banjo banks banns barbs barde bards bared barer bares barfs barge baric barit barks barms barmy barns baron barre barye basal based baser bases basic basil basin basis basks basso baste batch bated bates bathe baths batik baton batty bauds bawds bawdy bawls bayed bayou bazar beach beads beady beaks beams beamy beano beans beard bears beast beats beaus beaut bebop becks bedel bedew bedim beech beefs beefy beeps beery beets befit befog began begat beget begin begot begum begun beige being belay belch belga belie belle bells belly below belts bemas bench bends bendy benne benny bents beret bergs berks berms berry berth beryl beset besom besot bests betas betel beths betta bevel bevvy bezel bhaji bhang bialy bible bicep biddy bides bidet bield biffs bifid bight bigot bijou biked biker bikes bilbo bilge bilks bills billy bimah bimbo binal binds bines binge bingo biome biota biped bipod birch birds birls birrs birth bison bitch biter bites bitts bitty blabs black blade blags blahs blain blame bland blank blare blase blast blate blats blaze bleak blear bleat blebs bleed bleep blend bless blimp blind bling blini blink blips bliss blitz bloat blobs block blocs blogs bloke blond blood bloom bloop blots blown blows blowy blued bluer blues bluet bluey bluff blunt blurb blurs blurt blush board boars boart boast boats bobby bodes bodge boffo bogey boggy bogie bogle bogon bogus boils boink bolas boles bolls bolos bolts bolus bombe bombs bonce bonds boned boner bones bongo bongs bonks bonne bonny bonus bonze boobs booby booed books booms boong boons boors boost booth boots booty booze boozy borak borax bored borer bores boric borne boron bosky bosom boson bossy botch botel bothy bough boule bound bouse bouts bovid bowed bowel bower bowls bowse boxed boxer boyar boyla bozos brace brach bract brads braes brags braid brail brain brake brand brant brash brass brats brave bravo brawl brawn braxy brays braze bread break bream brede breed brent breve brews bribe brick bride brief brier brigs brill brims brine bring brink briny brisk brits broad broch brock broil broke bronc brood brook broom brose broth brown brows bruin bruit brume brunt brush brute bubal bubba bucko bucks buddy budge bueno buffo buffs buggy bugle buhls build built bulbs bulge bulgy bulks bulky bulla bulls bully bumph bumps bumpy bunch bunco bungs bunks bunny bunts buoys buran burbs buret burgh burgs burin burka burke burls burly burns burnt burps burro burrs burry bursa burse burst busby bused bushy busks busts busty butch buteo butte butts butty butut butyl buxom buyer bwana bylaw byres bytes byway cabal cabby cabin cable cabob cacao cache cacti cadet cadge cadre cafes caffs caged cager cages cagey caird cairn caked cakes calks calla calls calms calve calyx camel cameo campo camps campy canal candy caner canes canna canny canoe canon canso canst canto cants canty caper capes capon capos caput carat carbs cards carer cares caret cargo carks carny carob carol carom carpi carps carry carse carte carts carve cased cases casks caste casts catch cater catty cauda caulk cauls cause caved caver caves cavie cavil cawed cease cecal cecum cedar ceded ceder cedes cedis ceiba celeb cella cello cells celom cense cento cents ceorl cered ceres ceria ceric ceros certs cesar cesta chads chafe chaff chain chair chalk champ chant chaos chape chaps chard chare charm charr chars chart chary chase chasm chats chaws cheap cheat check cheek cheep cheer chefs chela chemo chert chess chest chevy chews chewy chiao chick chico chide chief child chili chill chimb chime chimp china chine ching chink chino chins chips chirk chirm chirp chirr chits chive chivy chock chocs choir choke choli chomp chook chops chord chore chose chows chron chubs chuck chufa chuff chugs chump chums chunk churl churn churr chute chyle chyme ciaos cider cigar cilia cimex cinch circa cirri cisco cited cites civet civic civil clack clade claim clamp clams clang clank clans claps claro clary clash clasp class clave clavi claws clays clean clear cleat cleek clefs cleft clepe clerk clews click cliff climb clime cline cling clink clips clits cloak clock clods clogs clomb clomp clone clonk clops close cloth clots cloud clout clove clown cloys clubs cluck clued clues clump clung clunk clvii clxii clxiv clxix clxvi coach coact coals coaly coast coati coats cobia coble cobra cocci cocks cocky cocoa cocos codas coded coder codes codex codon coeds cogon cohos coifs coign coils coins coirs coked cokes colas colds coles coley colic colly colon color colts colza comas combe combo combs comdg comer comes comet comfy comic comma compo comps conch condo conga conic conns contd conte conto cooed cooee cooks cools coomb coons coops coots copal copay copes copra copse coral cords cored corer cores corgi coria corks corky corms corns cornu corny corps corse cosec coset costa coste costs cotes cotta couch cough could count coupe coups court couth coven cover coves covet covey covin cowed cower cowls coxae coxed coyly coypu cozen craal crabs crack craft crags crake cramp crams crane crank crape craps crapy crash crass crate crave crawl craws crays craze crazy creak cream credo creed creek creel creep creme crepe crept cress crest crews cribs crick cried crier cries crime crimp crine crisp croak crock croft crone cronk crony crook croon crops crore cross croup crowd crown crows croze cruck crude cruel cruet cruft crumb crump cruse crush crust crypt cryst cubby cubeb cuber cubes cubic cubit cuddy cuffs cuing cukes culch culet culex culls cully culms culpa cults cumin cunts cupel cupid cuppa curbs curch curds curdy cured curer cures curet curia curie curio curls curly curry curse curve curvy cusec cushy cusks cusps cutch cutey cutie cutin cutis cutty cutup cycad cycle cylix cymar cymas cymes cynic cysts cyton czars daces dacha dadas daddy daffy dagos dahls daily dairy daisy dales dally daman damar dames damns damps dance dandy dangs danio dared darer dares daric darky darns darts dated dater dates datum daube daubs daunt davit dawns dazed dazes dding deals dealt dears deary death debag debit debts debus debut decaf decal decay decks decor decoy dedal deems deeps deify deign deist deity dekko delay delft delis dells delta delve demit demon demur denar denim denom dense dents depth derby deriv derma derry desks deter detox deuce devil dewan dhobi dhole dhoti dhows dials diary diazo diced dicer dices dicey dicks dicot dicta didst diets diffs dight digit diked dikes dildo dills dilly dimes dimly dinar diner dines dinge dingo dingy dinky dints diode dippy dipso direr dirge dirks dirty disco dishy disks ditch ditsy ditto ditty divan divas dived diver dives divot divvy diwan dixie dizen dizzy dobby dobla dobra dobro docks dodge dodgy dodos doffs doges doggo doggy dogie dogma doily doing dolce doled doles dolls dolly dolor dolts domed domes donas donee donga dongs donna donne donor dooms doors doozy doped doper dopes dopey dorks dorky dorms dorty dosed doses doter dotes dotty doubt douce dough douma douse doves dowdy dowel dower dowie downs downy dowry dowse doyen dozen drabs draff draft drags drain drake drama drams drank drape drawl drawn draws drays dread dream drear dregs dress dried drier dries drift drill drink drips drive droid droit droll drone drool droop drops dross drove drown drubs drugs druid drums drunk drupe druse dryad dryer dryly duads duals ducal ducat duchy ducks ducky ducts dudes duels duets duffs dukes dulia dulls dully dulse dumbo dummy dumps dumpy dunce dunes dungs dunks dunno duomo duped duper dupes duple duppy durra durst durum dusky dusts dusty dutch duvet dwarf dweeb dwell dwelt dyads dying dykes dynes eager eagle eagre eared earls early earns earth eased easel eases eaten eater eaves ebbed ebony echos eclat edema edged edger edges edict edify edits educe educt eerie effed egads egest egged egret eider eidos eight eikon eject eking eland elate elbow elder elect elegy elemi elfin elide elite elope elude elute elver elves email embay embed ember embow embus emcee emend emery emirs emits emmer emmet emoji emote empty enact enate ended endow endue enema enemy engin enjoy ennui ensue enter entry envoi envoy eosin epact epees ephah ephod ephor epics epoch epode epoxy equal equip equiv erase erect ergot ernes erode erose erred error eruct erugo erupt esker essay ester estop ether ethic ethos ethyl etnas etude etuis euros evade evens event evert every evict evils evite evoke exact exalt exams excel exeat execs exert exile exine exist exits exons expat expel expos extol extra exude exult exurb eyras eyrir fable faced faces facet facts faddy fades fadge faena faffs fagot fails faint fairs fairy faith faked faker fakes fakir falls false famed fancy fango fangs fanny fanon faqir farad farce farci farcy fared farer fares farms farts fasts fatal fates fatly fatso fatty fatwa faugh fault fauna fauns fauve faves favor favus fawns faxed fazed fazes fears feast feats fecal feces fecit feeds feels feeze feign feint felid fella fells felly felon felts femme femur fence fends fenny feoff feral feria fermi ferns ferny ferry fests fetal fetch feted fetes fetid fetor fetus feuar feuds fever feyly fiats fiber fiche fichu ficus fidge fiefs field fiend fiery fifer fifes fifth fifty fight filar filch filed filer files filet fills filly films filmy filth filum final finch finds fined finer fines finis finks finny fired firer fires firms firry first firth fiscs fishy fists fitch fitly fiver fives fixed fixer fizzy fjeld fjord flack flags flail flair flake flaky flame flank flans flaps flare flash flask flats flaws flawy flays fleam fleas fleck fleer flees fleet flesh flews flick flied flier flies fling flint flips flirt flite flits float flock flocs floes flogs flong flood floor flops flora flory floss flour flout flown flows flubs flues fluff fluid fluke fluky flume flump flung flunk fluor flush flute fluty flyby flyte foals foams foamy focal focus foehn foggy foils foist folds folia folic folie folio folks folly fonts foods fools foots footy foray forby force fordo fords fores forge forgo forks forme forms forte forts forty forum fossa fosse fouls found fount fours fovea fowls foxed foyer frack frags frail frame franc frank fraps frats fraud frays freak freed freer frees fremd frena fresh frets friar fried fries frigs frill frisk frith fritz frize frizz frock frogs frond frons front frore frosh frost froth frown froze fruit frump fryer fubsy fucks fucus fudge fuels fugal fuggy fugue fulls fully fumed fumes funds fungi fungo funks funky funny furan furls furor furry furze furzy fused fusee fuses fusil fussy fusty futon fuzzy gabby gable gadid gaffe gaffs gaily gains gaits galah galas galea gales galls galop gamba gamed gamer games gamic gamin gamma gammy gamps gamut ganef gangs ganja ganof gapes gappy garbs gasps gassy gated gater gates gator gauds gaudy gauge gaunt gaurs gauss gauze gauzy gavel gawks gawky gawps gazed gazer gazes geans gears gecko geeks geeky geese gelds gelid gemma gemmy gemot genes genet genic genie genii genip genit genoa genre genro gents genus geode geoid gerah germs germy gesso getup ghats ghazi ghees ghost ghoul ghyll giant gibed giber gibes giddy gifts gigot gigue gilds gills gilts gimel gimme gimps gimpy ginny gipon girds girls girly giros girth girts gites given giver gives gizmo glace glade glads glair gland glans glare glary glass glaze gleam glean glebe glede gleet glias glide glint glitz gloam gloat globe globs gloms gloom glory gloss glove glows gloze glued glues gluey glume gluon gluts glyph gnarl gnash gnats gnaws gnome goads goals goats godly gofer going golds golem golfs golly gonad goner gongs gonif gonks gonna gonzo goods goody gooey goofs goofy gooks goons goose goosy gopak goral gored gores gorge gorps gorse goths gotta gouge gourd gouty gowan gowns goyim grabs grace grade grads graft grail grain grams grand grans grant grape graph grasp grass grate grave gravy grays graze great grebe greed green greet greps gride grids grief grift grill grime grimy grind grins gripe grips grist grith grits groan groat groin groks groom grope gross grosz grots group grout grove growl grown grows grubs gruel grues gruff grume grump grunt guaco guano guans guard guars guava gucks guess guest guide guild guile guilt guise gulag gulas gulch gules gulfs gulls gully gulps gumbo gumma gummy gunge gungy gunky gunny guppy gurge gurus gushy gussy gusto gusts gusty gutsy gutta gutty guyed guyot gypsy gyral gyres gyron gyros gyrus gyved gyves habit hacek hacks hades hadst hafiz hafts haiku hails hairs hairy hajes hajji hakes hakim halal haled haler hales halls halms halon halos halts halve hamal hames hammy hamza hance hands handy hangs hanks haole haply happy hards hardy hared harem hares harks harms harps harpy harry harsh harts hasps haste hasty hatch hater hates haugh haulm hauls haunt haven haver haves havoc hawed hawks hawse hayed hazan hazed hazel hazer hazes heads heady heals heaps heard hears heart heath heats heave heavy heder hedge heeds heels hefts hefty heirs heist helix hello hells helms helot helps helve hemal hemic hemin hence henge henna henry herbs herby herds heres heron hertz heths hewed hewer hexad hexed hexyl hicks hided hider hides highs hight hijab hiked hiker hikes hills hilly hilts hilum hinds hinge hinny hints hippo hippy hired hirer hires hitch hived hives hoard hoars hoary hobby hobos hocks hocus hogan hoick hoist hoked hokes hokey hokku hokum holds holed holes holey holly homed homer homes homey homos honer hones honey honks honky honor hooch hoods hooey hoofs hooks hooky hoops hoots hoped hopes horah horal horas horde horme horns horny horol horse horst hosed hoses hosta hosts hotel hotly hough hound houri hours house hovel hover howdy howls hubby huffs huffy hulas hulks hulky hulls human humic humid humor humph humps humpy humus hunch hunks hunky hunts hurds hurls hurry hurst hurts husks husky hussy hutch hydra hydro hyena hying hymen hymns hyoid hyped hyper hypes hypha hypos hyrax hyson iambi iambs ichor icily icing icons ictus ideal ideas idiom idiot idled idler idles idols idyll igloo ihram ileac ileal ileum ileus iliac ilium illus image imago imams imbue imide imine immix impel imply inane inbox inced incur incus indef index indic indie induc inept inert infer infin infra ingle ingot inion inkle inner innit instr intel inter intis intro inure inurn ioctl iodic ionic iotas irade irate irked irons irony irreg isles islet issei issue istle itchy items ivied ivies ivory ixtle izard jabot jacal jacks jaded jades jaggy jails jakes jalap jambs jammy japan japed japer japes jatos jaunt jawed jazzy jeans jebel jeeps jeers jello jells jelly jemmy jenny jerid jerks jerky jerry jests jetty jewel jibes jiffs jiffy jihad jilts jimmy jingo jinks jinni jived jiver jives jivey jocko jocks joeys johns joins joint joist joked joker jokes jokey jolly jolts jolty jorum joule joust jowls jowly joyed judge jugal jugum juice juicy jujus julep jumbo jumps jumpy junco junks junta jupon jural jurat jurel juror jutty kafir kaiak kails kakis kalif kalis kalpa kanji kanzu kaons kaphs kapok kappa kaput karat karma karst karts kasha kauri kavas kayak kayos kazoo kebab kedge keels keens keeps kelly kenaf kendo kente kepis kerne ketch kevel keyed khaki khans kheda khoum kiang kibes kicks kicky kiddo kikes kills kilns kilos kilts kinas kinda kinds kines kings kinin kinks kinky kinos kiosk kites kitty kiwis klong kloof kluge klutz knack knaps knave knead kneed kneel knees knell knelt knife knish knits knobs knock knoll knots knout known knows knurl koala koans kobos kohls koine kolas kooks kooky kopje korma kotos kraal kraft krait kraut krill krona krone kroon kudos kudus kudzu kukri kulak kurus kvass kyats kyles kylix label labia labor laced laces lacks laden lades ladle lagan lager laird lairs laity laker lakes lakhs lamas lambs lamed lamer lames lamia lamps lanai lance lands lanes lanky lapel lapin lapse larch lards lardy lares large largo larks larum larva lased laser lases lasso lasts latch lated later latex lathe lathi laths lathy latke latte lauds laugh lavas laves lawns laxly layer layup lazar lazed lazes leach leads leafs leafy leaks leaky leans leaps leapt learn lease leash least leave ledge leech leeks leery lefts lefty legal leges leggy legit leman lemma lemme lemon lemur lends lenis lento leone leper lepta lethe letup levee level lever levin lewis lexis liana liard liars libel libra licit licks lidos liege lifer lifts ligan liger light liked liken liker likes lilac lilos lilts limbo limbs limed limen limes limey limit limns limos limps lindy lined linen liner lines lingo linin links lints linty lions lipid lippy lisle lisps lists litas liter lithe litho lived liven liver lives livid livre llama llano loach loads loafs loams loamy loans loath lobar lobby lobes local locks locos locum locus loden lodes lodge loess lofts lofty logan loges loggy logia logic login logon logos loins lolls lolly loner longe longs looby looks looms loons loony loops loopy loose loots loped loper lopes loppy loran lords loris lorry losel loser loses lotas lotic lotto lotus lough louis loupe lours louse lousy louts loved lover loves lovey lowed lower lowly loyal luaus lubed lubes lubra lucid lucks lucky lucre ludic luffa luffs luged luges lulls lulus lumen lumps lumpy lunar lunch lunge lungi lungs lupus lurch lured lures lurex lurgy lurid lurks lushy lusts lusty lutes lweis lxvii lying lymph lynch lyres lyric lyses lysin lysis lyssa lytic lytta macaw maces macho macle macro madam madly mafia mages magic magma magus maids mails maims mains maize major maker makes makos malar males malls malts malty mamas mamba mambo mamey mamma mammy manas manat maned manes manga mange mango mangy mania manic manky manly manna manor manse manta manuf maple maras march marcs mares marge maria marka marks marls marly marry marsh marts maser masks mason massy masts match mates matey matin matte matzo mauls maund mauve maven mavis maxed maxim maxis maybe mayor mayst mazer mazes meals mealy means meant meany meats meaty mecca medal media medic meets meiny melds melee melic melon melts memes memos mends menus meows mercy meres merge merit merle merry mesas mesic mesne meson messy metal meted meter metes meths metic metis metro mewed mewls mezzo micks micro middy midge midis midst miffs miffy might miked mikes mikva milch miler miles milfs milia milit milks milky mills milos milts mimed mimer mimes mimic mince minds mined miner mines mingy minim minis minke minks minor mints minty minus mired mires mirin mirth mirza misdo miser missy mists misty miter mites mitis mitts mixed mixer mneme moans moats mocha mocks modal model modem modes moggy mogul mohur moils moire moist mokes molal molar molas molds moldy moles molls molly molts mommy monad monas monde money mongo monks monte month mooch moods moody mooed moons moony moors moose moots moped moper mopes mopey moral moray morel mores morns moron morph morse mosey mossy motel motes motet moths mothy motif motor motte motto moues mound mount mourn mouse mousy mouth moved mover moves movie mowed mower moxie mucin mucks mucky mucor mucro mucus muddy mudra muffs mufti muggy mujik mulch mulct mules muley mulla mulls multi mummy mumps munch mungs muons mural murex murks murky murre mushy music musky mussy musts musty muted muter mutes mutts muzak muzzy myall mycol mynas myrrh myths naans nabob nacho nacre nadir naevi naiad naifs nails naira naive naked naker nakfa named namer names nance nancy nanny napes nappe nappy narcs nards nares naris narky nasal nasty natal natch nates natty naval navar navel naves navig navvy nawab neaps nears neath necks needs needy negro negus neigh nelly neper neral nerds nerdy nerve nervy nests netty neume never nevus newel newly newsy newts nexus ngwee nicer niche nicks nidus niece niffy nifty nigga night nihil nimbi nimby nines ninja ninny ninon ninth nipas nippy nisei nisus niter nitid nitro nitty nival nixed nobby noble nobly nocks nodal noddy nodes nodus noels nohow noise noisy nomad nonce nones nonet nooks nooky noons noose noria norms north nosed noses notch noted notes notum nouns novae novas novel noway nubby nuder nudes nudge nuked nukes nulls numbs numen numis nurse nutty nyala nylon nymph oakum oared oases oasis oasts oaths obeah obeli obese obeys obits objet oboes oboli occas occur ocean ocher ocker ocrea octad octal octan octet oculi oddly odeon odeum odium odors offal offed offer often ogeed ogham ogive ogled ogler ogles ogres ohmic oiled oinks okapi okays okras oldie oleic olein oleum olive ollas ology omasa omber omega omits onion onset ontic oohed oomph ootid oozed oozes opahs opals opens opera opine oping opium opted optic orals orang orate orbit orcas order oread organ oriel orlop ornis orris osier osmic other ottar otter ought ounce ouphe ousel ousts outdo outed outgo outre outta ouzel ouzos ovals ovary ovate ovens overs overt ovine ovoid ovolo ovule owing owlet owned owner oxbow oxide oxime ozone paced pacer paces pacey pacha packs pacts paddy padre paean paeon pagan paged pager pages pails pains paint pairs paisa paled paleo paler pales palls pally palms palmy palsy pampa panda panel panes panga pangs panic panne pansy panto pants papal papas paper pappy paras parch parer pares pareu parka parks parky parol parrs parry parse parts party parve pasha pashm passe pasta paste pasts pasty patch pates paths patin patio patly patsy patty pause pavan paved paves pavid pavis pawed pawls pawns payed payee payer peace peach peags peaks peaky peals peans pearl pears peart peaty pebas pecan pecks pedal peeks peels peens peeps peeve pekan pekes pekoe pelts penal pence pends penis penna penne penni penny peons peony peppy perch perdu peril peris perks perky perms perry perse pervs pesky pesos pesto pests pesty petal peter petit petty pewee pewit phage phase pheon phial phish phlox phone phons phony photo phots phyla phyle piano picks picky picot picul piece pieta piety piggy piing pikas piked piker pikes pilaf pilch piled pilei piles pills pilot pimps pinch pined pines piney pinko pinks pinna pinny pinon pinta pinto pints pinup pious piper pipes pipit pique pirog piste pitas pitch piths pithy piton pitta pivot pixel pixie pizza place plage plaid plain plait plane plank plans plant plash plasm plate plats platy playa plays plaza plead pleas pleat plebe plebs plena plica plied plies ploce plods plonk plops plots plows ploys pluck plugs plumb plume plump plums plumy plunk plush poach pocks pocky poddy poems poesy poets pogey pogge poilu point poise poked poker pokes pokey polar poles polio polis polit polka polls polyp polys pomes pommy ponce poncy ponds pones pongs pooch poods pooed poofs poohs pooka pools poons poops popes poppa poppy popup porch pored porer pores porgy porky porno ports posed poser poses posit posse posts potto potty pouch poufs poult pound pours pouts pouty power prams prana prang prank prase prate prats prawn prays preen preps presa press prexy preys price prick pride pried prier pries prigs prime primo primp prink print prion prior prism privy prize probe prods proem profs prole promo prong proof propr props prose prosy proud prove prowl prows proxy prude prune psalm pseud pshaw psoas psych pubes pubic pubis pucka pucks pudgy puffs puffy puked pukes pukka pulas pules pulls pulps pulpy pulse pumas pumps punch pungs pungy punks punts pupae pupal pupil puppy puree purer purge purls purrs purse pursy pushy pussy putto putts putty pwned pygmy pylon pyoid pyres pyxie pzazz qibla qophs quack quads quaff quail quake quaky quale qualm quant quark quart quash quasi quass quays quean queen queer quell quern query quest queue quick quids quiet quiff quill quilt quine quins quint quips quipu quire quirk quirt quite quits quoin quoit quota quote rabbi rabid raced racer races racks racon radar radii radio radix radon rafts ragas rages ragga ragis raids rails rains rainy raise rajah rajes raked raker rakes rales rally ramie ramps rance ranch randy ranee range rangy ranks rants raper rapes rapid rared rarer rares rasps raspy ratal ratan rated ratel rater rates rathe ratio ratty raved ravel raven raver raves ravin rayon razed razee razes razor reach react ready realm reals reams reaps rears reata reave rebec rebel rebid recap recce recon recti recto recur recut redan redly redye reedy reefs reeks reeky reels reest reeve refer refix refry regal regex rehab reify reign reive relax relay relic remex remit remix renal rends renew renin rents reorg repel repps repro resat resin resow rests retch retro revel revet revue rheas rheum rhino rhomb rhumb rhyme rials riant riata riced ricer rices ricks rider rides ridge ridgy riels rifer riffs rifle rifts right rigid rigor riled riles rille rills rimes rinds rinks rinse riots ripen riper risen riser rises rishi risks risky rites ritzy rival rived river rives rivet riyal roach roads roams roans roars roast robed robes robin roble robot rocks rocky rodeo roger rogue roils roily roles rolls roman romeo romps ronde rondo roods roofs rooks rooky rooms roomy roose roost roots roped roper ropes roque roses rosin rotas rotls rotor roues rouge rough round rouse roust route routs roved rover roves rowan rowdy rowed rowel rower royal rubel rubes ruble ruche rucks rudds ruddy ruder ruffs rugby ruing ruins ruled ruler rules rumal rumba rummy rumor rumps runes rungs runic runny runts runty rupee rural ruses rushy rusks rusts rusty ruths rutty saber sabin sable sabot sabra sacks sacra sades sadhu sadly safer safes sagas sager sages saggy sahib saiga sails saint saith saker sakes salad salep sales sally salmi salol salon salpa salsa salts salty salve salvo samba sambo sames samey sands sandy saner sapid sapor sappy saran sards sarge saris sarky saros sasin sassy satay sated satem sates satin satyr sauce saucy sauna saury saute saved saver saves savor savoy savvy sawed scabs scads scags scald scale scalp scaly scamp scams scans scant scape scare scarf scarp scars scary scats scend scene scent schmo schwa scion scoff scold scone scoop scoot scope score scorn scour scout scowl scows scrag scram scrap scree screw scrim scrip scrod scrog scrub scrum scuba scudo scuds scuff scull sculp scums scups scurf scuta scute scuts seals seams seamy sears seats sebum secco sects sedan sedge sedgy sedum seeds seedy seeks seels seems seeps segno segue seine seise seism seize selah sells semen semis sends senna senor sense sente sepal sepia sepoy septa septs serai serer serfs serge serif serin serow serum serve servo setae setts setup seven sever sewan sewed sewer sexed sexts shack shade shads shady shaft shags shahs shake shako shaky shale shall shalt shame shams shank shape shard share shark sharp shave shawl shawm shays sheaf shear sheds sheen sheep sheer sheet shelf shell shend shewn shews shied shies shift shill shims shine shins shiny ships shire shirk shirr shirt shits shiva shivs shoal shoat shock shoes shone shook shool shoos shoot shops shore short shote shots shout shove shown shows showy shred shrew shrub shrug shuck shuns shunt shush shuts shyer shyly sibyl sicko sicks sided sides sidle siege sieve sifts sighs sight sigil sigma signs sikas silds silks silky sills silly silos silts silty silva simar simba since sines sinew singe sings sinks sinus sired siren sires sisal sissy sitar sited sites situs sixth sixty sizar sized sizer sizes skald skate skean skeet skegs skein skelp skeps skews skids skied skier skies skiff skill skimp skims skink skins skint skips skirl skirr skirt skite skits skive skoal skosh skuas skulk skull skunk slabs slack slags slain slake slams slang slant slaps slash slate slats slaty slave slays sleds sleek sleep sleet slept slews slice slick slide slime slims slimy sling slink slips slits slobs sloes slogs sloop slope slops slosh sloth slots slows slubs slued slues sluff slugs slump slums slung slunk slurp slurs slush sluts slyly slype smack small smalt smarm smart smash smaze smear smell smelt smews smile smirk smite smith smock smogs smoke smoko smoky smolt smote smurf smuts snack snafu snags snail snake snaky snaps snare snarf snark snarl snath sneak sneck sneer snick snide sniff snipe snips snits snobs snogs snood snook snoop snoot snore snort snots snout snows snowy snubs snuff snugs soaks soaps soapy soars soave sober socks socle sodas sofar sofas softa softy soggy soils solan solar soldo soled soles solid solon solos solus solve somas sonar sonde sones songs sonic sonly sonny sooth sooty sopor soppy sorbs sorer sores sorgo sorry sorta sorts sorus sough souks souls sound soups soupy sours souse south sowed sower space spade spahi spake spall spams spang spank spans spare spark spars spasm spate spats spawn spays speak spear speck specs speed spell spend spent speos sperm spews spica spice spics spicy spied spiel spies spiff spike spiky spile spill spine spins spiny spire spiry spite spits spitz spivs splat splay split spoil spoke spoof spook spool spoon spoor spore sport spots spout sprag sprat spray spree sprig sprit sprog sprue spuds spued spues spume spumy spunk spurn spurs spurt sputa squab squad squat squaw squib squid sruti stabs stacc stack staff stage stags stagy staid stain stair stake stale stalk stall stamp stand stane stang stank staph stare stark stars start stash state stats stave stays stdio stead steak steal steam steed steel steep steer stein stela stele stems steno stent steps stere stern stets stews stich stick sties stiff stile still stilt sting stink stint stipe stirk stirs stoat stock stoic stoke stole stoma stomp stone stony stood stook stool stoop stope stops store stork storm story stoss stoup stout stove stows strap straw stray strep strew stria strip strop strow stroy strum strut stubs stuck studs study stuff stull stump stung stunk stuns stunt stupa stupe style styli suave sucks sucre sudor sudsy suede suety sugar suing suint suite suits sulci sulfa sulks sulky sully sumac summa sumps sunny sunup super suppl supra surah sural suras surds surer surfs surge surgy surly surra sushi sutra swabs swage swags swain swale swami swamp swank swans swaps sward swarm swart swash swath swats sways swear sweat swede sweep sweet swell swept swift swigs swill swims swine swing swink swipe swirl swish swizz swoon swoop sword swore sworn swots swung sycee sylph syncs synod synop syrup sysop tabby tabes tabla table taboo tabor tacet tache tacit tacks tacky tacos taffy tafia taiga tails taint takas taken taker takes takin talas taler tales talks talky tally talon taluk talus tamed tamer tames tamis tammy tamps tango tangs tangy tanka tanks tansy tanto tapas taper tapes tapir tapis tardy tares targe tarns taros tarot tarps tarry tarsi tarts tarty taser tasks tasse taste tasty tater tatty taunt taupe tawny taxed taxer taxis taxon tayra tazza teach teaks teals teams tears teary tease teats techs techy teddy teems teens teeny teleg telex telic tells telly tempo temps tempt tench tends tenet tenge tenia tenne tenno tenon tenor tense tenth tents tepee tepid terce terms terns terra terry terse tesla testa tests testy teths tetra texts thane thank thaws thebe theca thees theft thegn their theme theol there therm these theta thews thewy thick thief thigh thill thine thing think thins thiol third thole thong thorn thorp those thous three threw throb throe throw thrum thuds thugs thuja thumb thump thunk thuya thyme tiara tibia tical ticks tidal tided tides tiffs tiger tight tigon tilde tiled tiler tiles tills tilts timed timer times timid tinct tinea tines tinge tinny tints tipsy tired tires titan titch tithe titis title titty tizzy toads toady toast today toddy toeas toffs togas toile toils tokay toked token tokes tolan tolar tolls tolly tolus tolyl tombs tomes tonal toned toner tones tonga tongs tonic tonne tonus tools tooth toots topaz topee topes topic topog toque torch torii torrs torse torsk torso torte torts torus total totem totes touch tough tours touts towed towel tower towns toxic toxin toyed trace track tract trade trail train trait tramp trams trans traps trash trass trave trawl trays tread treas treat treed treen trees treks trend tress trews treys triad trial tribe trice trick tried trier tries trike trill trims trine trios tripe trips trite troat troll tromp trona trons troop trope troth trots trout trove trows troys truce truck trued truer trues trugs trull truly trump trunk truss trust truth tryma tryst tubal tubas tubby tuber tubes tucks tufts tufty tulip tulle tumid tummy tumor tunas tuner tunes tunic tunny tuple tuque turbo turds turfs turfy turns turps tushy tusks tutor tutti tutty tutus twain twang twats tweak tweed tween tweet twerk twerp twice twigs twill twine twink twins twirl twist twits twixt tying tykes typal typed types typos tyros udder uhlan ukase ulcer ulema ulnae ulnar ultra umbel umber umbra umiak umped unapt unary unbid unbox uncap uncle uncut undue unfed unfit unify union unite unity unjam unlay unlit unmet unpeg unpen unpin unrig unsay unset until unwed unwon upend upped upper upset urban uredo urged urger urges urial urine usage users usher using usual usurp usury uteri utile utter uveas uvula vagal vague vagus vales valet valid valor valse value valve vamps vampy vanda vanes vaped vapes vapid vapor varas varia varix varus varve vases vasts vasty vatic vault vaunt vedic veeps veers veery vegan veges veils veins veiny velar velds velum venae venal vends venge venin venom vents venue verbs verge versa verse verso verst vertu verve vesta vests vetch vexed vials viand vibes vicar viced vices video views viewy vigil vigor viler villa villi vines vinic vinyl viola viols viper viral vireo virga virtu virus visas vised vises visit visor vista vitae vital vitta vivas vivid vixen vocab vocal vodka vogue voice voids voila voile volar voles volts volva vomer vomit voted voter votes vouch vouge vowed vowel vulva vying wacke wacko wacks wacky wader wades wadge wadis wafer wafts waged wager wages wagon wahoo waifs wails wains waist waits waive waked waken wakes waldo waled wales walks walls wally waltz wands wanes wanks wanly wanna wants wards wares warez warms warns warps warts warty washy wasps waste watch water watts waved waver waves waxed wazoo weald weals weans wears weary weave webby wedge weeds weedy weeks weens weeny weeps weepy wefts weigh weird weirs wekas welds wells welly welsh welts wench wends wersh wetly whack whale whams whaps wharf whats wheal wheat wheel wheen whelk whelm whelp whens where whets which whiff while whims whine whins whiny whips whipt whirl whirs whish whisk whist white whits whity whole whomp whoop whops whore whorl whose whoso whsle whups wicks widen wider wides widow width wield wight wikis wilds wiled wiles wills willy wilts wimps wimpy wince winch winds windy wines winks winos winze wiped wiper wipes wired wirer wires wirra wised wiser wises wisps wispy witch withe withy witty wived wives wizen woald wodge wolds wolfs woman wombs women wonks wonky woods woody wooed wooer woofs wools woops woozy words wordy works world worms wormy worry worse worst worth would wound woven wowed wrack wraps wrath wreak wreck wrens wrest wring wrist write writs wrong wrote wroth wrung wryer wryly wurst wussy xcvii xebec xenia xenon xeric xerox xrefs xterm xviii xxiii xxvii xxxii xxxiv xxxix xxxvi xylem xylol yacht yahoo yakka yanks yapok yapon yappy yards yarns yawed yawls yawns yawps yeahs yeans yearn years yeast yeggs yells yelps yenta yetis yield yikes yobbo yodel yodle yogic yogis yoked yokel yokes yolks yonks young yours youth yowls yucca yucky yukky yulan yummy yurts zaire zamia zappy zarfs zayin zazen zebec zebra zebus zeros zests zesty zetas zibet zilch zincs zines zingy zippy zitis zloty zonal zoned zones zooid zooms zorch zoril".split(' ')));
+const KROWS = ['qwertyuiop','asdfghjkl','>zxcvbnm<'];
+function wScore(g,a){
+  const r=Array(5).fill('x'), left={};
+  for(let i=0;i<5;i++) if(g[i]===a[i]) r[i]='g'; else left[a[i]]=(left[a[i]]||0)+1;
+  for(let i=0;i<5;i++) if(r[i]!=='g' && left[g[i]]>0){ r[i]='y'; left[g[i]]--; }
+  return r;
+}
+function startWordle(){
+  G = { key:'wordle', ans:WORDS[ri(0,WORDS.length-1)], rows:[], cur:'', done:false, msg:'Type a real five-letter word, then press Enter.' };
+  drawWordle();
+}
+function drawWordle(){
+  const best={}, rank={x:1,y:2,g:3};
+  G.rows.forEach(([w,r]) => [...w].forEach((ch,i) => { if(!best[ch] || rank[r[i]]>rank[best[ch]]) best[ch]=r[i]; }));
+  let grid='';
+  for(let i=0;i<6;i++){ const row=G.rows[i];
+    for(let j=0;j<5;j++) grid += `<div class="wt ${row?row[1][j]:''}">${row ? row[0][j] : (i===G.rows.length ? G.cur[j]||'' : '')}</div>`; }
+  const keys = KROWS.map(r => `<div class="kr">${[...r].map(k => {
+    const v = k==='>'?'ENTER':k==='<'?'DEL':k, lab = k==='>'?'Enter':k==='<'?'Delete':k;
+    return `<button class="key ${best[k]||''}" data-k="${v}">${lab}</button>`; }).join('')}</div>`).join('');
+  view.innerHTML = `
+    <p class="meta">Word Guess · you have 6 guesses</p>${bar(G.rows.length/6)}
+    <div class="wgrid">${grid}</div>
+    <p id="fb" role="status" aria-live="polite">${G.msg}</p>
+    ${G.done ? '<button class="primary" id="nw">New word</button>' : keys}
+    <p class="muted" style="font-size:.85rem;margin-top:12px">Green: right letter, right spot. Yellow: right letter, wrong spot. Grey: not in the word. You can also type with your keyboard.</p>
+    <button class="sec" id="leave">Leave this game</button>`;
+  view.querySelectorAll('[data-k]').forEach(b => b.onclick = () => wkey(b.dataset.k));
+  if(G.done) $('#nw').onclick = startWordle;
+}
+function wkey(k){
+  if(!G || G.key!=='wordle' || G.done) return;
+  if(k==='DEL') G.cur = G.cur.slice(0,-1);
+  else if(k==='ENTER'){
+    if(G.cur.length<5) G.msg='Please enter five letters.';
+    else if(!VALID.has(G.cur)) G.msg='That doesn’t look like a real word. Please try another.';
+    else {
+      const won = G.cur===G.ans;
+      G.rows.push([G.cur, wScore(G.cur,G.ans)]); G.cur='';
+      if(won || G.rows.length===6){ G.done=true; played(); if(won) sfx('win');
+        G.msg = won ? `You found it in ${G.rows.length} ${G.rows.length>1?'guesses':'guess'}. Well done!` : `Good try. The word was ${G.ans.toUpperCase()}.`; }
+      else G.msg='Keep going.';
+    }
+  } else if(G.cur.length<5){ G.cur+=k; G.msg=''; }
+  drawWordle();
+}
+document.addEventListener('keydown', e => {
+  if(!G || G.key!=='wordle' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if(e.key==='Enter'){ e.preventDefault(); wkey('ENTER'); }
+  else if(e.key==='Backspace') wkey('DEL');
+  else if(/^[a-z]$/i.test(e.key)) wkey(e.key.toLowerCase());
+  if(/^([a-z]|Enter|Backspace)$/i.test(e.key)) sfx('click');
+});
+
+/* ---------- Mini Crossword (built fresh each time from this clue list) ---------- */
+const CLUES = [
+ ['tiger','Big striped cat'],['piano','Instrument with black and white keys'],['ocean','Vast body of salt water'],
+ ['clock','It tells you the time'],['honey','Sweet food made by bees'],['river','Water flowing toward the sea'],
+ ['garden','Place to grow flowers and vegetables'],['window','Glass opening in a wall'],['kitchen','Room where meals are cooked'],
+ ['yellow','Color of a ripe banana'],['winter','Coldest season'],['bridge','It crosses a river'],
+ ['button','It fastens a shirt'],['letter','Written message in an envelope'],['pencil','Writing tool with an eraser'],
+ ['orange','Citrus fruit and a color'],['butter','Spread for toast'],['carpet','Floor covering'],
+ ['coffee','Morning drink made from beans'],['flower','A rose or a tulip'],['island','Land surrounded by water'],
+ ['jacket','Coat worn over a shirt'],['market','Place to buy fresh produce'],['planet','Earth is one'],
+ ['rabbit','Long-eared hopping animal'],['spring','Season when flowers bloom'],['summer','Warmest season'],
+ ['table','Meals are served on it'],['ticket','Needed to enter a show'],['violin','Stringed instrument played with a bow'],
+ ['blanket','Keeps you warm in bed'],['cheese','Made from milk, like cheddar'],['lemon','Sour yellow fruit'],
+ ['music','Songs and melodies'],['train','Runs on rails'],['moon','Shines at night'],['rain','Water falling from clouds'],
+ ['tree','Has leaves and a trunk'],['bird','Has feathers and wings'],['book','Has pages to read'],['door','You open it to enter a room'],
+ ['milk','White drink from cows'],['salt','Seasoning on the table'],['soup','Warm dish eaten with a spoon']
+];
+function cwMake(count){
+  const N=25; let best=null;
+  for(let attempt=0; attempt<60; attempt++){
+    const pool = shuffle(CLUES.slice()).slice(0,count+7).sort((a,b)=>b[0].length-a[0].length);
+    const g=Array.from({length:N},()=>Array(N).fill('')), f=Array.from({length:N},()=>Array(N).fill(0)), placed=[];
+    const empty=(r,c)=>r<0||c<0||r>=N||c>=N||g[r][c]==='';
+    const fits=(w,r,c,d)=>{
+      const dr=d?1:0, dc=d?0:1, L=w.length;
+      if(r+dr*(L-1)>=N || c+dc*(L-1)>=N || !empty(r-dr,c-dc) || !empty(r+dr*L,c+dc*L)) return -1;
+      let cross=0;
+      for(let i=0;i<L;i++){
+        const rr=r+dr*i, cc=c+dc*i, ch=g[rr][cc];
+        if(ch){ if(ch!==w[i] || (f[rr][cc]&(1<<d))) return -1; cross++; }
+        else if(!empty(rr+dc,cc+dr) || !empty(rr-dc,cc-dr)) return -1;
+      }
+      return cross;
+    };
+    const put=(e,r,c,d)=>{ const [w,clue]=e; for(let i=0;i<w.length;i++){ const rr=r+(d?i:0), cc=c+(d?0:i); g[rr][cc]=w[i]; f[rr][cc]|=1<<d; } placed.push({w,clue,r,c,d}); };
+    put(pool[0],12,12-Math.floor(pool[0][0].length/2),0);
+    for(const e of pool.slice(1)){
+      if(placed.length>=count) break;
+      let done=false;
+      for(const d of shuffle([0,1])){ for(let r=0;r<N&&!done;r++) for(let c=0;c<N&&!done;c++) if(fits(e[0],r,c,d)>0){ put(e,r,c,d); done=true; } if(done) break; }
+    }
+    const rs=placed.flatMap(w=>[w.r,w.r+(w.d?w.w.length-1:0)]), cs=placed.flatMap(w=>[w.c,w.c+(w.d?0:w.w.length-1)]);
+    const size=Math.max(Math.max(...rs)-Math.min(...rs), Math.max(...cs)-Math.min(...cs))+1;
+    const score=placed.length*100-size;
+    if(!best || score>best.score){ best=placed; best.score=score; }
+  }
+  const r0=Math.min(...best.map(w=>w.r)), c0=Math.min(...best.map(w=>w.c));
+  const r1=Math.max(...best.map(w=>w.r+(w.d?w.w.length-1:0))), c1=Math.max(...best.map(w=>w.c+(w.d?0:w.w.length-1)));
+  const starts=[...new Set(best.map(w=>w.r+','+w.c))].sort((a,b)=>{const [ar,ac]=a.split(',').map(Number),[br,bc]=b.split(',').map(Number);return ar-br||ac-bc;});
+  best.forEach(w=>w.num=starts.indexOf(w.r+','+w.c)+1);
+  return { words:best, r0, c0, h:r1-r0+1, w:c1-c0+1 };
+}
+function startCrossword(){
+  const cw=cwMake(pickLevel('crossword')+4);
+  G={ key:'crossword', cw, hints:0, ans:cw.words.map(()=>''), at:{} };
+  cw.words.forEach((w,i)=>[...w.w].forEach((_,j)=>{ const k=(w.r+(w.d?j:0)-cw.r0)+'_'+(w.c+(w.d?0:j)-cw.c0); (G.at[k]=G.at[k]||[]).push([i,j]); }));
+  drawCrossword();
+}
+const cwSolved = () => G.cw.words.every((w,i) => G.ans[i]===w.w.toUpperCase());
+function cwSelect(i,k,noFocus){
+  const cw=G.cw, w=cw.words[i]; G.sel=i;
+  view.querySelectorAll('.xc').forEach(c => c.classList.remove('hl','cur'));
+  for(let j=0;j<w.w.length;j++) $('#x'+(w.r+(w.d?j:0)-cw.r0)+'_'+(w.c+(w.d?0:j)-cw.c0)).classList.add('hl');
+  if(k) $('#x'+k).classList.add('cur');
+  view.querySelectorAll('.cl').forEach(l => l.classList.toggle('sel', +l.dataset.i===i));
+  $('#cwsel').textContent = `${w.num} ${w.d?'Down':'Across'}: ${w.clue} (${w.w.length} letters)`;
+  if(!noFocus) $(`input[data-i="${i}"]`).focus();
+}
+function paintCw(){
+  $('.pb div').style.width = (G.cw.words.filter((w,i)=>G.ans[i]===w.w.toUpperCase()).length / G.cw.words.length * 100) + '%';
+  view.querySelectorAll('.xc b').forEach(b => b.textContent='');
+  for(const k in G.at) G.at[k].forEach(([i,j]) => { const ch=G.ans[i][j]; if(ch) $('#x'+k+' b').textContent=ch; });
+}
+function drawCrossword(){
+  const cw=G.cw; let cells='';
+  for(let r=0;r<cw.h;r++) for(let c=0;c<cw.w;c++){
+    const k=r+'_'+c;
+    if(G.at[k]){ const st=cw.words.find(w=>w.r-cw.r0===r && w.c-cw.c0===c); cells+=`<button class="xc" id="x${k}" aria-label="Crossword square">${st?`<i>${st.num}</i>`:''}<b></b></button>`; }
+    else cells+='<div class="xb"></div>';
+  }
+  const list = d => cw.words.map((w,i)=>({w,i})).filter(o=>o.w.d===d).sort((a,b)=>a.w.num-b.w.num)
+    .map(({w,i}) => `<label class="cl" data-i="${i}"><strong>${w.num}.</strong> ${w.clue} (${w.w.length} letters)<input data-i="${i}" maxlength="${w.w.length}" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>`).join('');
+  view.innerHTML = `
+    <p class="meta">Mini Crossword · ${cap(S.diff.crossword)}</p>${bar(0)}
+    <p>Tap a square to select a word (tap again to switch between across and down). Then type the answer in the highlighted clue box.</p>
+    <p id="cwsel" role="status" aria-live="polite"><strong>Tap a square or a clue to pick a word.</strong></p>
+    <div style="overflow-x:auto"><div class="xg" style="grid-template-columns:repeat(${cw.w},minmax(34px,1fr));min-width:${cw.w*34}px">${cells}</div></div>
+    <h2>Across</h2>${list(0)}<h2>Down</h2>${list(1)}
+    <div class="row"><button class="sec" id="chk">Check my work</button><button class="sec" id="hint">Give me a hint</button></div>
+    <div id="fb" role="status" aria-live="polite"></div>
+    <button class="sec" id="leave">Leave this game</button>`;
+  view.querySelectorAll('.cl input').forEach(inp => inp.oninput = () => {
+    inp.value = inp.value.replace(/[^a-z]/gi,'').toUpperCase(); inp.classList.remove('bad');
+    G.ans[+inp.dataset.i] = inp.value; paintCw(); if(cwSolved()) cwWin();
+  });
+  view.querySelectorAll('.xc').forEach(c => c.onclick = () => {
+    const k=c.id.slice(1), ws=G.at[k].map(a=>a[0]);
+    cwSelect(ws.length>1 && ws.includes(G.sel) ? ws.find(x=>x!==G.sel) : ws[0], k); });
+  view.querySelectorAll('.cl input').forEach(inp => inp.onfocus = () => { if(G.sel !== +inp.dataset.i) cwSelect(+inp.dataset.i, null, true); });
+  $('#chk').onclick = () => {
+    let bad=0;
+    view.querySelectorAll('.cl input').forEach(inp => { const w=cw.words[+inp.dataset.i];
+      const wrong = inp.value.length===w.w.length && inp.value!==w.w.toUpperCase(); inp.classList.toggle('bad',wrong); if(wrong) bad++; });
+    $('#fb').textContent = bad ? `${bad} answer${bad>1?'s need':' needs'} another look. They are shaded red.` : 'Nothing wrong so far. Keep going.';
+  };
+  $('#hint').onclick = () => {
+    const open = cw.words.map((w,i)=>i).filter(i => G.ans[i]!==cw.words[i].w.toUpperCase());
+    const i = open[ri(0,open.length-1)];
+    G.ans[i] = cw.words[i].w.toUpperCase(); G.hints++;
+    const inp = view.querySelector(`input[data-i="${i}"]`); inp.value=G.ans[i]; inp.classList.remove('bad');
+    paintCw(); $('#fb').textContent='I filled in one answer for you.'; if(cwSolved()) cwWin();
+  };
+}
+function cwWin(){ winScreen('Crossword complete!', G.hints ? `You used ${G.hints} hint${G.hints>1?'s':''}. Try one with none next time.` : 'No hints needed. Excellent!', ['Next crossword',startCrossword]); }
+
+/* ---------- Jigsaw (tap two pieces to swap them) ---------- */
+const JIG = { 1:[2,2], 2:[2,3], 3:[3,3], 4:[3,4], 5:[4,4], 6:[4,6] };   // [rows, columns]
+const SCENES = [
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#f08a3c'/><stop offset='1' stop-color='#fbe3a1'/></linearGradient></defs><rect width='300' height='200' fill='url(#g)'/><circle cx='210' cy='95' r='34' fill='#d9432f'/><path d='M0 140 Q70 90 140 135 T300 120 V200 H0Z' fill='#6b8f4e'/><path d='M0 172 Q90 135 180 170 T300 160 V200 H0Z' fill='#2f5b32'/></svg>`,
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect width='300' height='200' fill='#9fd3ee'/><circle cx='50' cy='40' r='22' fill='#ffd84a'/><rect y='130' width='300' height='70' fill='#5fa04a'/><g stroke='#2f6b2a' stroke-width='4'><path d='M50 190V140M110 190V125M170 190V145M230 190V120M280 190V138'/></g><circle cx='50' cy='136' r='14' fill='#e0405a'/><circle cx='110' cy='120' r='16' fill='#f7b32b'/><circle cx='170' cy='141' r='13' fill='#8e5bd1'/><circle cx='230' cy='115' r='17' fill='#e0405a'/><circle cx='280' cy='134' r='14' fill='#f7b32b'/></svg>`,
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect width='300' height='200' fill='#bfe3f5'/><rect y='120' width='300' height='80' fill='#2f7fb0'/><path d='M150 30V118L90 118Z' fill='#fff7e6'/><path d='M158 52V118L215 118Z' fill='#e9573f'/><path d='M80 124H225L205 150H100Z' fill='#6b4423'/><circle cx='250' cy='38' r='20' fill='#ffd84a'/></svg>`,
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect width='300' height='200' fill='#8ecae6'/><path d='M0 150L80 50L140 130L200 40L300 150Z' fill='#6d7f99'/><path d='M80 50L105 85L85 78L65 88ZM200 40L228 82L205 74L180 86Z' fill='#fff'/><rect y='140' width='300' height='60' fill='#2a7ea6'/><path d='M0 150Q75 135 150 150T300 148V160H0Z' fill='#3e8a4a'/></svg>`,
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect width='300' height='200' fill='#1d2a4a'/><circle cx='230' cy='50' r='24' fill='#f5f0d0'/><g fill='#fff'><circle cx='40' cy='30' r='2'/><circle cx='90' cy='60' r='2'/><circle cx='140' cy='25' r='2'/><circle cx='180' cy='70' r='2'/><circle cx='60' cy='95' r='2'/><circle cx='270' cy='100' r='2'/></g><path d='M0 160Q80 120 150 155T300 140V200H0Z' fill='#14301f'/><rect x='60' y='140' width='30' height='30' fill='#6b4423'/><path d='M55 142L75 122L95 142Z' fill='#a33b2f'/><rect x='70' y='152' width='8' height='10' fill='#ffd84a'/></svg>`,
+`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'><rect width='300' height='200' fill='#cfe8ff'/><circle cx='80' cy='70' r='34' fill='#e0405a'/><circle cx='170' cy='55' r='30' fill='#f7b32b'/><circle cx='240' cy='90' r='26' fill='#3b7dd8'/><g stroke='#333' stroke-width='2'><path d='M60 100L70 128M100 100L90 128M155 82L162 106M185 82L178 106M228 112L234 130M252 112L246 130'/></g><g fill='#6b4423'><rect x='68' y='128' width='24' height='14'/><rect x='158' y='106' width='20' height='12'/><rect x='231' y='130' width='18' height='11'/></g><rect y='165' width='300' height='35' fill='#5fa04a'/></svg>`
+];
+function startJigsaw(){
+  const [rows,cols]=JIG[pickLevel('jigsaw')], n=rows*cols; let order;
+  do { order=shuffle([...Array(n).keys()]); } while(order.every((v,i)=>v===i));
+  G={ key:'jigsaw', rows, cols, order, sel:null, uri:'data:image/svg+xml,'+encodeURIComponent(SCENES[ri(0,SCENES.length-1)]).replace(/'/g,'%27') };
+  drawJigsaw();
+}
+function drawJigsaw(){
+  const {rows,cols,order}=G;
+  const tiles=order.map((p,pos)=>{ const x=p%cols, y=Math.floor(p/cols);
+    return `<button class="jp${G.sel===pos?' sel':''}${p===pos?' ok':''}" data-pos="${pos}" aria-label="Piece ${pos+1}" style="background-image:url('${G.uri}');background-size:${cols*100}% ${rows*100}%;background-position:${cols>1?x*100/(cols-1):0}% ${rows>1?y*100/(rows-1):0}%"></button>`; }).join('');
+  view.innerHTML = `
+    <p class="meta">Jigsaw · ${cap(S.diff.jigsaw)} · ${rows*cols} pieces</p>${bar(order.filter((p,i)=>p===i).length/(rows*cols))}
+    <p><strong>How it works:</strong> 1) Tap a piece to pick it up. 2) Tap a second piece to swap places. Pieces with a green edge are already correct.</p>
+    <p id="jmsg" role="status" aria-live="polite"><strong>${G.sel===null ? 'No piece selected yet.' : `Piece ${G.sel+1} is selected (yellow, marked “Selected”). Tap another piece to swap, or tap it again to cancel.`}</strong></p>
+    <img src="${G.uri}" alt="The finished picture" style="width:45%;max-width:220px;display:block;margin:0 auto 14px;border:3px solid var(--dark);border-radius:6px">
+    <div class="jg" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${tiles}</div>
+    <div class="row"></div>
+    <button class="sec" id="leave">Leave this game</button>`;
+  view.querySelectorAll('.jp').forEach(b => b.onclick = () => {
+    const pos=+b.dataset.pos;
+    if(G.sel===null) G.sel=pos;
+    else if(G.sel===pos) G.sel=null;
+    else { [order[G.sel],order[pos]]=[order[pos],order[G.sel]]; G.sel=null;
+      if(order.every((v,i)=>v===i)) return jigWin(); }
+    drawJigsaw();
+  });
+}
+function jigWin(){ winScreen('Puzzle complete!', 'Lovely work.', ['Next puzzle',startJigsaw], `<img src="${G.uri}" alt="The finished picture" style="width:70%;display:block;margin:0 auto 14px;border:3px solid var(--dark);border-radius:6px">`); }
 
 /* ---------- Rotating notes on the home screen (a different one each visit) ---------- */
 const QUOTES = [
@@ -396,7 +801,13 @@ const QUOTE = pickQuote();   // chosen once per visit
 /* One handler for every "Leave this game" button */
 view.addEventListener('click', e => { if(e.target.id === 'leave'){ save(); home(); } });
 
-home();
+// One shared maximum level (MAX_LEVEL) for every game; fail loudly if any config goes past it.
+console.assert(Object.values(LV).every(g => Object.values(g).flat().every(l => l>=1 && l<=MAX_LEVEL)) && Math.max(...Object.keys(SUDOKU_LEVELS), ...Object.keys(JIG)) <= MAX_LEVEL, 'A level is outside 1 to MAX_LEVEL');
+$('#brand').onclick = landing;
+$('#gear').onclick = () => SCREEN === 'settings' ? BACKTO() : settings();
+$('#dash').onclick = landing;
+applySettings();
+landing();
 </script>
 </body>
 </html>
